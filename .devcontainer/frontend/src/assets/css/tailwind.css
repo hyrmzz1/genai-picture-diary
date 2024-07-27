@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+    아래처럼 스타일을 커스텀해 사용할 수도 있다.
+    요소에 className="item-middle" 추가하면 스타일이 적용된다.
+ */
+@layer components {
+    .item-middle {
+      @apply flex items-center justify-center min-h-screen;
+    }
+  }
+  
