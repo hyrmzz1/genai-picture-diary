@@ -1,7 +1,7 @@
 from flask_login import current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from json import dumps
+from flask import jsonify
 g_db = SQLAlchemy()
 g_migrate = Migrate()
 
@@ -30,7 +30,7 @@ class BaseModel(g_db.Model):
         return self
     
     def to_json(self):
-        return dumps(self)
+        return jsonify(self)
 
     def __repr__(self):
         return f'{self.__class__.__name__}: {self.id} '
