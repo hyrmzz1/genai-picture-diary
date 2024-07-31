@@ -1,46 +1,47 @@
 import Lnb from "../components/Lnb";
+import image13 from "../assets/rabbit.svg"; // 이미지 경로 임포트
+import "../assets/css/mypage.css"; // CSS 파일 임포트
 
 const Mypage = () => {
   return (
-    <div className="flex">
+    <div className="mypage-container">
       <Lnb /> {/* Lnb 컴포넌트 추가 */}
-      <div className="mypage-content">
-        <div className="profile-section">
-          <img src={image13} alt="Profile" className="profile-image" />
-        </div>
-        <div className="info-section">
+      <div className="profile-section">
+        <div className="profile-section-content">
+          <div className="profile-image-container">
+            <img src={image13} alt="Profile" className="profile-image" />
+          </div>
           <div className="info-group">
-            <p className="info-title">기본정보</p>
-            <p className="info-label">닉네임</p>
-            <div className="info-value">
-              <p>별명</p>
-              <p>0/10</p>
-            </div>
-            <p className="info-label">이름</p>
-            <div className="info-value">
-              <p>김초딩</p>
-            </div>
-            <p className="info-label">아이디</p>
-            <div className="info-value">
-              <p>abcde123</p>
-            </div>
-            <p className="info-label">비밀번호</p>
-            <div className="info-value">
-              <div className="password-dots">
-                <span>•</span>
-                <span>•</span>
-                <span>•</span>
-                <span>•</span>
-                <span>•</span>
-                <span>•</span>
-                <span>•</span>
-                <span>•</span>
+            <div className="info-item">
+              <p className="info-title">기본정보</p>
+              <p className="info-label">닉네임</p>
+              <div className="info-value">
+                <p>별명</p>
+                <p>0/10</p>
               </div>
-              <button className="change-button">변경</button>
+            </div>
+            <div className="info-item">
+              <p className="info-label">이름</p>
+              <div className="info-value">
+                <p>김초딩</p>
+              </div>
+            </div>
+            <div className="info-item">
+              <p className="info-label">아이디</p>
+              <div className="info-value">
+                <p>abcde123</p>
+              </div>
+            </div>
+            <div className="info-item">
+              <p className="info-label">비밀번호</p>
+              <div className="info-value">
+                <div className="password-dots"></div>
+                <button className="change-button">변경</button>
+              </div>
             </div>
           </div>
           <div className="action-group">
-            <button className="update-button">정보수정</button>
+            <button className="action-button">정보수정</button>
             <div className="delete-account">
               <p>회원탈퇴</p>
               <svg
