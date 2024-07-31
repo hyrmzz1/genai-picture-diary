@@ -36,7 +36,6 @@ class User(BaseModel, UserMixin):
     def update_user(self, data):
         self.fullname = data.get('fullname', self.fullname)
         self.nickname = data.get('nickname', self.nickname)
-        self.admin_check = data.get('admin_check', self.admin_check)
         self.user_type= data.get('user_type', self.user_type)
     
     def is_student(self):
