@@ -25,12 +25,6 @@ def create_app(config, mode):
     # blueprint 등록 코드, url_prefix를 기본으로 함
     add_blueprint(app)
 
-    Error.error_handler_setting(app)
-
-    # jinja2 필터 등록
-    app.jinja_env.filters['datetime'] = lambda x: x.strftime('%y.%m.%d %H:%M')
-    app.jinja_env.filters['round'] = lambda x: round(x, 2)
-
     # login_manager 설정 코드
     set_login_manager(app)
 
