@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from "tailwindcss";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,5 +12,10 @@ export default defineConfig({
     hmr: {
       host: 'localhost',
     }
-  }
+  },
+  css: {
+    postcss: {
+      plugins: [tailwindcss()],
+    },
+  },
 })
