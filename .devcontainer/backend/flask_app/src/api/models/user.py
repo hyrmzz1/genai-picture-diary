@@ -34,6 +34,9 @@ class User(BaseModel, UserMixin):
         else: return print('존재하지 않는 아이디')
     
     def update_user(self, data):
+        if 'password' in data or 'login_id' in data:
+            return print('유효하지 않은 입력')
+        
         for key, value in data.items():
             if key in self.__table__.columns:
                 setattr(self, key, value)
