@@ -1,5 +1,5 @@
 import LNB from "../components/Lnb";
-import profileImage from "../assets/rabbit.svg"; // 이미지 경로를 실제 경로로 수정하세요
+import profileImage from "../assets/rabbit.svg";
 
 const MyPage = () => {
   return (
