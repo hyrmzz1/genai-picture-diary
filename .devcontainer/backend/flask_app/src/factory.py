@@ -1,8 +1,6 @@
-from flask import Flask, redirect, render_template, url_for, request
-from flask_login import current_user, login_user, logout_user
+from flask import Flask
 from src.api.models.user import User
 from src.api.models import db_migrate_setup
-from src.api.utils.error import Error
 from src.api.models import get_all_admin_models
 
 def create_app(config, mode):
