@@ -19,11 +19,11 @@ const Layout = () => {
               <ul className="flex gap-5">
                 <li>
                   {/* 비로그인 상태에선 해당 버튼 노출 X */}
-                  <Link to="/about">Mypage</Link>
+                  <Link to="/mypage">Mypage</Link>
                 </li>
                 <li>
                   {/* 로그인 상태에 따라 다르게 노출 */}
-                  <Link to="/write">로그인/로그아웃</Link>
+                  <Link to="/login">로그인/로그아웃</Link>
                 </li>
               </ul>
             </nav>
