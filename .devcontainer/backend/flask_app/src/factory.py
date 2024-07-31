@@ -25,12 +25,6 @@ def create_app(config, mode):
     # blueprint 등록 코드, url_prefix를 기본으로 함
     add_blueprint(app)
 
-    Error.error_handler_setting(app)
-
-    # jinja2 필터 등록
-    app.jinja_env.filters['datetime'] = lambda x: x.strftime('%y.%m.%d %H:%M')
-    app.jinja_env.filters['round'] = lambda x: round(x, 2)
-
     # login_manager 설정 코드
     set_login_manager(app)
 
@@ -53,25 +47,7 @@ def add_admin_view(app):
         admin.add_view(admin_model(model, session))
 
 def add_blueprint(app):
-    @app.route('/', methods=['GET', 'POST'])
-    def home():
-        if request.method == 'GET': 
-            if current_user and current_user.is_authenticated == True:
-                return render_template('home.html', username=current_user.username)
-            return render_template('login.html')
-
-        username = request.form['username']
-        user = User.get_instance_with(username=username)
-        if not user: return render_template('login.html', error='Invalid credentials')
-
-        login_user(user, remember=True)
-        return render_template('home.html', username=current_user.username)
-    
-    @app.route('/logout')
-    def logout():
-        logout_user() 
-        return redirect(url_for('home'))
-
+    pass
     # from api.views import views
     # app.register_blueprint(views, name='views')
     # from api.auth import auth
@@ -99,9 +75,9 @@ def add_cli(app):
         nickname = input("Enter nickname : ")
         login_id = input("Enter login_id : ")
         password = input("Enter password : ")
-        admin_check = input("Do you want admin check? (y/n): ")
+        user_type = input("Enter user_type(0=student, 1=teacher, 2=admin): ")
 
-        admin_check = admin_check.lower() == "y"
+        user_type = int(user_type) if user_type.isdigit() else 0
 
         try:
             admin_user = User(
@@ -109,7 +85,7 @@ def add_cli(app):
                 nickname = nickname,
                 login_id = login_id,
                 password = password,
-                admin_check = admin_check
+                user_type = user_type
             )
             admin_user.add_instance()
             print(f"User created!\n", admin_user)
