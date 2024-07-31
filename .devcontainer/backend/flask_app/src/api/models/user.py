@@ -34,9 +34,10 @@ class User(BaseModel, UserMixin):
         else: return print('존재하지 않는 아이디')
     
     def update_user(self, data):
-        self.fullname = data.get('fullname', self.fullname)
-        self.nickname = data.get('nickname', self.nickname)
-        self.user_type= data.get('user_type', self.user_type)
+        for key, value in data.items():
+            if key in self.__table__.columns:
+                setattr(self, key, value)
+        g_db.session.commit()
     
     def is_student(self):
         if self.user_type == 0: 
