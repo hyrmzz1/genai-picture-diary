@@ -9,7 +9,7 @@ const Layout = () => {
   return (
     <>
       <article className="container mx-auto px-5">
-        <div className="max-w-[1100px] mx-auto">
+        <div className="w-[1440px] h-[1066px] relative overflow-hidden bg-neutral-50">
           {/* 헤더 영역 */}
           <header className="flex justify-between items-center">
             <Link to="/">
