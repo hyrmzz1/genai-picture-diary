@@ -24,11 +24,15 @@ class BaseModel(g_db.Model):
     id = g_db.Column(g_db.Integer, primary_key=True)                                   
     date_created = g_db.Column(g_db.DateTime, default=get_korea_time())
     
+    @classmethod
+    def get_instance(cls, id):
+        return g_db.session.query(cls).get(id)
+
     def add_instance(self):
         g_db.session.add(self)
         g_db.session.commit()
         return self
-    
+
     def to_json(self):
         return jsonify(self)
 
