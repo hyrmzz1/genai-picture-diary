@@ -27,8 +27,12 @@ COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
 # Node.js 패키지 설치
-COPY package.json .
+COPY frontend/package.json .
+COPY frontend/package-lock.json .
 RUN npm install
+
+# 소스 파일 복사
+COPY . .
 
 # Port 명시
 EXPOSE 8080
