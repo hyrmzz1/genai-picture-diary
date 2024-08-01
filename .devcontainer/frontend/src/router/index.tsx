@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "../components/Layout";
 import Login from "../pages/Login";
 import Mypage from "../pages/Mypage";
+import Alert from "../pages/Alert";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/mypage",
         element: <Mypage />,
+      },
+      {
+        path: "/alert",
+        element: <Alert />,
       },
     ],
   },

@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 const LNB = () => {
   return (
     <div className="flex flex-col justify-start items-start w-[260px] h-[1008px] relative px-8 pt-9 pb-[329px] bg-white border-t-0 border-r-[1.13px] border-b-0 border-l-0 border-[#e2e2e2]">
       <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-5">
-        <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-[52px] relative gap-2 px-3 rounded-xl">
+        <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-[52px] relative gap-2 px-3 rounded-xl hover:bg-[#efefef]">
           <svg
             width={24}
             height={24}
@@ -15,16 +17,16 @@ const LNB = () => {
             <path
               d="M21 21.0001H13M2.5 21.5001L8.04927 19.3657C8.40421 19.2292 8.58168 19.161 8.74772 19.0718C8.8952 18.9927 9.0358 18.9013 9.16804 18.7987C9.31692 18.6831 9.45137 18.5487 9.72028 18.2798L21 7.00006C22.1046 5.89549 22.1046 4.10463 21 3.00006C19.8955 1.89549 18.1046 1.89549 17 3.00006L5.72028 14.2798C5.45138 14.5487 5.31692 14.6831 5.20139 14.832C5.09877 14.9643 5.0074 15.1049 4.92823 15.2523C4.83911 15.4184 4.77085 15.5959 4.63433 15.9508L2.5 21.5001ZM2.5 21.5001L4.55812 16.149C4.7054 15.7661 4.77903 15.5746 4.90534 15.4869C5.01572 15.4103 5.1523 15.3813 5.2843 15.4065C5.43533 15.4354 5.58038 15.5804 5.87048 15.8705L8.12957 18.1296C8.41967 18.4197 8.56472 18.5648 8.59356 18.7158C8.61877 18.8478 8.58979 18.9844 8.51314 19.0947C8.42545 19.2211 8.23399 19.2947 7.85107 19.442L2.5 21.5001Z"
               stroke="#444444"
-              stroke-width={2}
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-left text-[#444]">
             일기작성
           </p>
         </div>
-        <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-[52px] relative gap-2 px-3">
+        <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-[52px] relative gap-2 px-3 rounded-xl hover:bg-[#efefef]">
           <svg
             width={24}
             height={24}
@@ -43,7 +45,7 @@ const LNB = () => {
             내 일기
           </p>
         </div>
-        <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-[52px] relative gap-2 px-3">
+        <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-[52px] relative gap-2 px-3 rounded-xl hover:bg-[#efefef]">
           <svg
             width={24}
             height={24}
@@ -56,16 +58,16 @@ const LNB = () => {
             <path
               d="M12 21L11.8999 20.8499C11.2053 19.808 10.858 19.287 10.3991 18.9098C9.99286 18.5759 9.52476 18.3254 9.02161 18.1726C8.45325 18 7.82711 18 6.57482 18H5.2C4.07989 18 3.51984 18 3.09202 17.782C2.71569 17.5903 2.40973 17.2843 2.21799 16.908C2 16.4802 2 15.9201 2 14.8V6.2C2 5.07989 2 4.51984 2.21799 4.09202C2.40973 3.71569 2.71569 3.40973 3.09202 3.21799C3.51984 3 4.07989 3 5.2 3H5.6C7.84021 3 8.96031 3 9.81596 3.43597C10.5686 3.81947 11.1805 4.43139 11.564 5.18404C12 6.03968 12 7.15979 12 9.4M12 21V9.4M12 21L12.1001 20.8499C12.7947 19.808 13.142 19.287 13.6009 18.9098C14.0071 18.5759 14.4752 18.3254 14.9784 18.1726C15.5467 18 16.1729 18 17.4252 18H18.8C19.9201 18 20.4802 18 20.908 17.782C21.2843 17.5903 21.5903 17.2843 21.782 16.908C22 16.4802 22 15.9201 22 14.8V6.2C22 5.07989 22 4.51984 21.782 4.09202C21.5903 3.71569 21.2843 3.40973 20.908 3.21799C20.4802 3 19.9201 3 18.8 3H18.4C16.1598 3 15.0397 3 14.184 3.43597C13.4314 3.81947 12.8195 4.43139 12.436 5.18404C12 6.03968 12 7.15979 12 9.4"
               stroke="#444444"
-              stroke-width={2}
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-left text-[#444]">
             우리반 일기
           </p>
         </div>
-        <div className="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 h-[52px] px-3 rounded-xl">
+        <div className="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 h-[52px] px-3 rounded-xl rounded-xl hover:bg-[#efefef]">
           <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2">
             <svg
               width={24}
@@ -79,13 +81,13 @@ const LNB = () => {
               <path
                 d="M11 4H7.8C6.11984 4 5.27976 4 4.63803 4.32698C4.07354 4.6146 3.6146 5.07354 3.32698 5.63803C3 6.27976 3 7.11984 3 8.8V14C3 14.93 3 15.395 3.10222 15.7765C3.37962 16.8117 4.18827 17.6204 5.22354 17.8978C5.60504 18 6.07003 18 7 18V20.3355C7 20.8684 7 21.1348 7.10923 21.2716C7.20422 21.3906 7.34827 21.4599 7.50054 21.4597C7.67563 21.4595 7.88367 21.2931 8.29976 20.9602L10.6852 19.0518C11.1725 18.662 11.4162 18.4671 11.6875 18.3285C11.9282 18.2055 12.1844 18.1156 12.4492 18.0613C12.7477 18 13.0597 18 13.6837 18H15.2C16.8802 18 17.7202 18 18.362 17.673C18.9265 17.3854 19.3854 16.9265 19.673 16.362C20 15.7202 20 14.8802 20 13.2V13M20.1213 3.87868C21.2929 5.05025 21.2929 6.94975 20.1213 8.12132C18.9497 9.29289 17.0503 9.29289 15.8787 8.12132C14.7071 6.94975 14.7071 5.05025 15.8787 3.87868C17.0503 2.70711 18.9497 2.70711 20.1213 3.87868Z"
                 stroke="#444444"
-                stroke-width={2}
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
             <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-left text-[#232527]">
-              알림
+              <Link to="/alert">알림</Link>
             </p>
           </div>
           <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative overflow-hidden px-1.5 rounded-md bg-[#ff0101]">
@@ -94,7 +96,7 @@ const LNB = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-[52px] relative gap-2 px-3 rounded-xl bg-[#efefef]">
+        <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-[52px] relative gap-2 px-3 rounded-xl hover:bg-[#efefef]">
           <svg
             width={24}
             height={24}
@@ -110,10 +112,10 @@ const LNB = () => {
             />
           </svg>
           <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-left text-[#444]">
-            마이페이지
+            <Link to="/mypage">마이페이지</Link>
           </p>
         </div>
-        <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-[52px] relative gap-2 px-3">
+        <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-[52px] relative gap-2 px-3 rounded-xl hover:bg-[#efefef]">
           <svg
             width={24}
             height={24}
@@ -126,7 +128,7 @@ const LNB = () => {
             <path
               d="M12.125 19.8645C12.386 19.7188 12.7478 19.5095 13.178 19.2413C14.097 18.6684 15.3179 17.8336 16.5338 16.7833C19.0147 14.6405 21.25 11.7973 21.25 8.60377C21.25 6.19371 19.2211 4.00005 16.8384 4L12.125 19.8645ZM12.125 19.8645C11.864 19.7188 11.5022 19.5095 11.072 19.2413C10.153 18.6684 8.93213 17.8336 7.71616 16.7833C5.2353 14.6405 3 11.7973 3 8.60377C3 6.19371 5.02885 4.00005 7.41155 4L12.125 19.8645ZM12.125 7.68224L11.2591 6.18317C10.4852 4.84335 9.01784 4.00017 7.41164 4L12.125 7.68224ZM12.125 7.68224L12.9909 6.18317M12.125 7.68224L12.9909 6.18317M12.9909 6.18317C13.7648 4.84335 15.2322 4.00017 16.8384 4L12.9909 6.18317Z"
               stroke="#444444"
-              stroke-width={2}
+              strokeWidth={2}
             />
           </svg>
           <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-left text-[#444]">
@@ -134,7 +136,7 @@ const LNB = () => {
           </p>
         </div>
       </div>
-      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[173px] h-[52px] absolute left-8 top-[933px] gap-2 px-3">
+      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[173px] h-[52px] absolute left-8 top-[933px] gap-2 px-3 rounded-xl hover:bg-[#efefef]">
         <svg
           width={24}
           height={24}
@@ -147,16 +149,16 @@ const LNB = () => {
           <path
             d="M16 17L21 12M21 12L16 7M21 12H9M9 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21H9"
             stroke="#444444"
-            stroke-width={2}
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
         <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-left text-[#444]">
           로그아웃
         </p>
       </div>
-      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[173px] h-[52px] absolute left-8 top-[861px] gap-2 px-3">
+      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[173px] h-[52px] absolute left-8 top-[861px] gap-2 px-3 rounded-xl hover:bg-[#efefef]">
         <svg
           width={24}
           height={24}
@@ -169,9 +171,9 @@ const LNB = () => {
           <path
             d="M13 11H17.8C18.9201 11 19.4802 11 19.908 11.218C20.2843 11.4097 20.5903 11.7157 20.782 12.092C21 12.5198 21 13.0799 21 14.2V21M13 21V6.2C13 5.0799 13 4.51984 12.782 4.09202C12.5903 3.71569 12.2843 3.40973 11.908 3.21799C11.4802 3 10.9201 3 9.8 3H6.2C5.0799 3 4.51984 3 4.09202 3.21799C3.71569 3.40973 3.40973 3.71569 3.21799 4.09202C3 4.51984 3 5.0799 3 6.2V21M22 21H2M6.5 7H9.5M6.5 11H9.5M6.5 15H9.5"
             stroke="#444444"
-            stroke-width={2}
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
         <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-left text-[#444]">
