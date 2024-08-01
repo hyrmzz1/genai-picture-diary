@@ -1,7 +1,25 @@
+import { useState } from "react";
 import LNB from "../components/Lnb";
+import DeleteAccount from "../components/DeleteAccount";
 import profileImage from "../assets/rabbit.svg";
 
 const MyPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleConfirm = () => {
+    // 회원 탈퇴 로직 추가
+    setIsModalOpen(false);
+    alert("회원 탈퇴가 완료되었습니다.");
+  };
+
   return (
     <div className="flex bg-neutral-50 min-h-screen">
       <LNB />
@@ -207,7 +225,17 @@ const MyPage = () => {
                     </div>
                     <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1.5">
                       <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-right text-[#444]">
-                        회원탈퇴
+                        <button
+                          onClick={handleOpenModal}
+                          className="px-4 py-2 bg-red-500 text-[#444] rounded"
+                        >
+                          회원탈퇴
+                        </button>
+                        <DeleteAccount
+                          isOpen={isModalOpen}
+                          onClose={handleCloseModal}
+                          onConfirm={handleConfirm}
+                        />
                       </p>
                       <svg
                         width={24}
