@@ -1,7 +1,9 @@
 from flask.json import jsonify
 from flask_login import UserMixin
 from flask_wtf import FlaskForm
-from wtforms import SelectField
+from flask_admin.form import Select2Widget
+from wtforms import PasswordField, SelectField, StringField
+from wtforms.validators import DataRequired
 from werkzeug.security import generate_password_hash, check_password_hash
 import enum
 
@@ -25,7 +27,9 @@ class User(BaseModel, UserMixin):
     profile_image = g_db.relationship('Image', back_populates='user', cascade='delete, delete-orphan', lazy='dynamic')
 
 
-    def __init__(self, password, **kwargs):
+    def __init__(self, **kwargs):
+        password = kwargs.pop('password', None)
+        kwargs.pop('csrf_token', None)
         self.set_password(password)
         super().__init__(**kwargs)
     
@@ -74,3 +78,25 @@ class User(BaseModel, UserMixin):
 class UserAdmin(AdminBase):
     # 1. 표시 할 열 설정
     column_list = ('id', '_user_type', 'fullname', 'nickname', 'login_id')
+
+    form_type = {
+        'fullname':StringField('Full Name', validators=[DataRequired()]),
+        'nickname':StringField('Nickname', validators=[DataRequired()]),
+        'login_id':StringField('Login ID', validators=[DataRequired()]),
+        'password':PasswordField('Password', validators=[DataRequired()]),
+        'user_type':SelectField('User Type', choices=[('student', 'Student'), ('teacher', 'Teacher'), ('admin', 'Admin')], validators=[DataRequired()], widget=Select2Widget())
+    }
+    
+    form = type('ExtendedSignUpForm', (FlaskForm,), form_type)
+
+    def create_model(self, form):
+        form_data = {name: field.data for name, field in form._fields.items()}
+        print(form_data)
+        model = User(**form_data)
+        model.add_instance()
+        return model
+    
+    def edit_form(self, obj=None):
+        form = super().edit_form(obj)
+        del form.password
+        return form
