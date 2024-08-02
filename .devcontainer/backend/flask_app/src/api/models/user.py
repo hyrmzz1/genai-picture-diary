@@ -1,21 +1,29 @@
 from flask.json import jsonify
 from flask_login import UserMixin
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, StringField
+from wtforms import SelectField
 from werkzeug.security import generate_password_hash, check_password_hash
+import enum
 
 from src.api.models.base import AdminBase, BaseModel, g_db
+
+class UserType(enum.Enum):
+    STUDENT = 'student'
+    TEACHER = 'teacher'
+    ADMIN = 'admin'
 
 # flask-login 사용하기 위해 UserMixin 상속
 class User(BaseModel, UserMixin):
     __tablename__ = 'user'
-    fullname = g_db.Column(g_db.String(50))                    # 이름                                
-    nickname = g_db.Column(g_db.String(50), unique=True)       # nickname unique
-    login_id = g_db.Column(g_db.String(50), unique=True)       # login id unique
-    password = g_db.Column(g_db.String(255))
-    user_type = g_db.Column(g_db.Integer, default=0)           # 0 = student, 1 = teacher, 2 = admin 
+    fullname = g_db.Column(g_db.String(50), nullable=False)                    # 이름                                
+    nickname = g_db.Column(g_db.String(50), unique=True, nullable=False)       # nickname unique
+    login_id = g_db.Column(g_db.String(50), unique=True, nullable=False)       # login id unique
+    password = g_db.Column(g_db.String(255), nullable=False)
+    _user_type = g_db.Column('user_type', g_db.Enum(UserType), nullable=False)
 
+    user_alerts = g_db.relationship('Alert', back_populates="user", cascade='delete, delete-orphan', lazy='dynamic') # push 알림
     profile_image = g_db.relationship('Image', back_populates='user', cascade='delete, delete-orphan', lazy='dynamic')
+
 
     def __init__(self, password, **kwargs):
         self.set_password(password)
@@ -24,6 +32,16 @@ class User(BaseModel, UserMixin):
     def set_password(self, password):
         self.password = generate_password_hash(password)
     
+    @property
+    def user_type(self):
+        return self._user_type.value
+    
+    @user_type.setter
+    def user_type(self, value):
+        if value not in {'student', 'teacher', 'admin'}:
+            raise ValueError("Invalid alert_type. Must be 'student' or 'teacher' or 'admin'.")
+        self._user_type = UserType(value)
+
     @classmethod
     def user_check(cls, login_id, password):
         login_id = login_id.strip().replace(' ', '')
@@ -41,20 +59,6 @@ class User(BaseModel, UserMixin):
             if key in self.__table__.columns:
                 setattr(self, key, value)
         g_db.session.commit()
-    
-    def is_student(self):
-        if self.user_type == 0: 
-            return True
-        else: return False
-
-    def is_teacher(self):
-        if self.user_type == 1: 
-            return True
-        else: return False
-
-    def is_admin(self):
-        if self.uset_type == 2: 
-            return True
         
     def to_json(self):
         exclude_fields = {'password'}
@@ -62,21 +66,11 @@ class User(BaseModel, UserMixin):
         return jsonify(data)
 
     def __repr__(self):
-        return super().__repr__() + f'{self.username}'         
+        return super().__repr__() + f'{self.fullname}' + f'{self.nickname}'
 
     def __str__(self):
-        return super().__str__() + f'{self.username}' 
-
+        return super().__str__() + f'{self.fullname}' + f'{self.nickname}'
+    
 class UserAdmin(AdminBase):
     # 1. 표시 할 열 설정
-    column_list = ('id', 'fullname', 'nickname', 'login_id', 'user_type')
-
-    # 2. 폼 데이터 설정
-    permisson_check = {
-        'fullname': StringField('fullname'),
-        'nickname': StringField('nickname'),
-        'login_id': StringField('login_id'),
-        'user_type': IntegerField('user_type', default=False),
-    }
-    create_form = type('ExtendedSignUpForm', (FlaskForm,), permisson_check)
-    edit_form = type('EditForm', (FlaskForm,), permisson_check)
+    column_list = ('id', '_user_type', 'fullname', 'nickname', 'login_id')
