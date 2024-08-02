@@ -5,6 +5,7 @@ class UserGroup(BaseModel):
     __tablename__ = 'user_group'
     
     group_name = g_db.Column(g_db.String(50))
+
     group_alerts = g_db.relationship('Alert', back_populates="group", cascade='delete, delete-orphan', lazy='dynamic') # push 알림
 
     def to_json(self):
@@ -21,3 +22,6 @@ class UserGroup(BaseModel):
 class UserGroupAdmin(AdminBase):
     # 1. 표시 할 열 설정
     column_list = ('id', 'group_name')
+
+    # 2. form 제외 열
+    form_excluded_columns = ('group_alerts', 'date_created')
