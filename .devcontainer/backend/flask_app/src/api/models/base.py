@@ -4,7 +4,6 @@ from flask_migrate import Migrate
 from flask import jsonify
 g_db = SQLAlchemy()
 g_migrate = Migrate()
-
 # relationship(관계 맺는 모델 이름, back_populates=연결 필드 이름)
 # Cascade = 1:N 관계에서 1쪽에 설정
 # all = 모두
@@ -27,6 +26,10 @@ class BaseModel(g_db.Model):
     @classmethod
     def get_instance(cls, id):
         return g_db.session.query(cls).get(id)
+    
+    @classmethod
+    def get_all(cls):
+        return g_db.session.query(cls).all()
 
     def add_instance(self):
         g_db.session.add(self)
@@ -49,9 +52,12 @@ class AdminBase(ModelView):
     column_formatters = {
         'date_created': lambda view, context, model, name: model.date_created.strftime('%Y-%m-%d %H:%M:%S')
     }
+
+    # 2. 폼에서 제외할 열 설정
+    form_excluded_columns = ('date_created',)
     
-    def is_accessible(self):
-        if current_user and current_user.is_authenticated == True and current_user.admin_check == True:
-            return True
-        else:
-            return print('permission error')
+    # def is_accessible(self):
+    #     if current_user and current_user.is_authenticated == True and current_user.admin_check == True:
+    #         return True
+    #     else:
+    #         return print('permission error')

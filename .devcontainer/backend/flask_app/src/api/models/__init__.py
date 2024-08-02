@@ -8,11 +8,15 @@ def db_migrate_setup(app):
 
 from .user import User, UserAdmin
 from .image import Image, ImageAdmin
+from .alert import Alert, AlertAdmin
+from .user_group import UserGroup, UserGroupAdmin
 
 def get_model(arg):
     models = {
         'user': User,
-        'image': Image
+        'image': Image,
+        'alert': Alert,
+        'user_group': UserGroup,
     }
     return models[arg]
 
@@ -20,10 +24,12 @@ def get_admin_model(arg):
     models = {
         'user': UserAdmin,
         'image': ImageAdmin,
+        'alert': AlertAdmin,
+        'user_group': UserGroupAdmin,
     }
     return models[arg]
 
 def get_all_admin_models():
     from .base import g_db
-    arg_list = ['user', 'image']
+    arg_list = ['user', 'image', 'alert', 'user_group']
     return [[get_admin_model(arg), get_model(arg)] for arg in arg_list], g_db.session
