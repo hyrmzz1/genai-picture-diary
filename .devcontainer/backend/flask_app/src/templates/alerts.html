@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerts Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .alert {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Alerts</h1>
+    <div id="alert-container">
+        {% for alert in alerts %}
+        <div class="alert">
+            <p><strong>Alert Type:</strong> {{}}</p>
+            <p><strong>ID:</strong> {{ alert.id }}</p>
+            <p><strong>Message:</strong> {{ alert.message }}</p>
+            {% if alert.is_group() %}
+            <p><strong>Group Name:</strong> {{ alert.group.group_name }}</p>
+            {% else %}
+            <p><strong>User Name:</strong> {{ alert.user.nickname }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

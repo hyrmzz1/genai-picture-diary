@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from src.api.models.user import User
 from src.api.models import db_migrate_setup
 from src.api.models import get_all_admin_models
@@ -45,6 +45,17 @@ def add_admin_view(app):
         admin.add_view(admin_model(model, session))
 
 def add_blueprint(app):
+    from src.views.alert import alert_view
+    app.register_blueprint(alert_view)
+
+    @app.route('/')
+    def home():
+        from src.api.models.user import User
+        from src.api.models.user_group import UserGroup
+        users = User.get_all()
+        user_groups = UserGroup.get_all()
+        return render_template('home.html', users=users, user_groups=user_groups)
+    
     pass
     # from api.views import views
     # app.register_blueprint(views, name='views')
