@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Logo = () => {
+const NavLogo = () => {
   return (
     <Link to="/">
       <h1>Logo</h1>
@@ -8,4 +8,4 @@ const Logo = () => {
   );
 };
 
-export default Logo;
+export default NavLogo;
