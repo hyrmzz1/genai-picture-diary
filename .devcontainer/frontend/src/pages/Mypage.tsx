@@ -1,10 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LNB from "../components/Lnb";
 import DeleteAccount from "../components/DeleteAccount";
 import profileImage from "../assets/rabbit.svg";
+import useProfileStore from "../stores/profileStore";
 
 const MyPage = () => {
+  const { profile, fetchProfile, updateProfile } = useProfileStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [editMode, setEditMode] = useState(false);
+  const [image, setImage] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [name, setName] = useState("");
+  const [uid, setUid] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  useEffect(() => {
+    if (profile) {
+      setImage(profile.profileImage);
+      setNickname(profile.nickname);
+      setName(profile.name);
+      setUid(profile.uid);
+      setPassword(profile.password);
+    }
+  }, [profile]);
+
+  const handleSaveProfile = async () => {
+    const updatedProfile = { profileImage, nickname, name, uid, password };
+    const success = await updateProfile(updatedProfile);
+    if (success) {
+      setEditMode(false);
+      alert("프로필이 업데이트되었습니다.");
+    } else {
+      alert("프로필 업데이트에 실패했습니다.");
+    }
+  };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -44,185 +78,239 @@ const MyPage = () => {
                         <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                           닉네임
                         </p>
-                        <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] bg-white border-[0.91px] border-[#bfbfbf]">
-                          <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
-                            별명
-                          </p>
-                          <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
-                            0/10
-                          </p>
-                        </div>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            value={nickname}
+                            onChange={(e) => setNickname(e.target.value)}
+                            className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] bg-white border-[0.91px] border-[#bfbfbf]"
+                          />
+                        ) : (
+                          <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] bg-white border-[0.91px] border-[#bfbfbf]">
+                            <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
+                              {nickname}
+                            </p>
+                          </div>
+                        )}
                       </div>
                       <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[10.948728561401367px]">
                         <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                           이름
                         </p>
-                        <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
-                          <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
-                            김초딩
-                          </p>
-                        </div>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]"
+                          />
+                        ) : (
+                          <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
+                            <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
+                              {name}
+                            </p>
+                          </div>
+                        )}
                       </div>
                       <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[10.948728561401367px]">
                         <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                           아이디
                         </p>
-                        <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
-                          <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
-                            abcde123
-                          </p>
-                        </div>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            value={uid}
+                            onChange={(e) => setUid(e.target.value)}
+                            className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]"
+                          />
+                        ) : (
+                          <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
+                            <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
+                              {uid}
+                            </p>
+                          </div>
+                        )}
                       </div>
                       <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[10.948728561401367px]">
                         <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                           비밀번호
                         </p>
-                        <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
-                          <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-1">
-                            <svg
-                              width={3}
-                              height={4}
-                              viewBox="0 0 3 4"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="flex-grow-0 flex-shrink-0"
-                              preserveAspectRatio="xMidYMid meet"
-                            >
-                              <circle
-                                cx="1.5"
-                                cy="2.4873"
-                                r="1.5"
-                                fill="#A0A0A0"
-                              />
-                            </svg>
-                            <svg
-                              width={3}
-                              height={4}
-                              viewBox="0 0 3 4"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="flex-grow-0 flex-shrink-0"
-                              preserveAspectRatio="xMidYMid meet"
-                            >
-                              <circle
-                                cx="1.5"
-                                cy="2.4873"
-                                r="1.5"
-                                fill="#A0A0A0"
-                              />
-                            </svg>
-                            <svg
-                              width={3}
-                              height={4}
-                              viewBox="0 0 3 4"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="flex-grow-0 flex-shrink-0"
-                              preserveAspectRatio="xMidYMid meet"
-                            >
-                              <circle
-                                cx="1.5"
-                                cy="2.4873"
-                                r="1.5"
-                                fill="#A0A0A0"
-                              />
-                            </svg>
-                            <svg
-                              width={3}
-                              height={4}
-                              viewBox="0 0 3 4"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="flex-grow-0 flex-shrink-0"
-                              preserveAspectRatio="xMidYMid meet"
-                            >
-                              <circle
-                                cx="1.5"
-                                cy="2.4873"
-                                r="1.5"
-                                fill="#A0A0A0"
-                              />
-                            </svg>
-                            <svg
-                              width={3}
-                              height={4}
-                              viewBox="0 0 3 4"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="flex-grow-0 flex-shrink-0"
-                              preserveAspectRatio="xMidYMid meet"
-                            >
-                              <circle
-                                cx="1.5"
-                                cy="2.4873"
-                                r="1.5"
-                                fill="#A0A0A0"
-                              />
-                            </svg>
-                            <svg
-                              width={3}
-                              height={4}
-                              viewBox="0 0 3 4"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="flex-grow-0 flex-shrink-0"
-                              preserveAspectRatio="xMidYMid meet"
-                            >
-                              <circle
-                                cx="1.5"
-                                cy="2.4873"
-                                r="1.5"
-                                fill="#A0A0A0"
-                              />
-                            </svg>
-                            <svg
-                              width={3}
-                              height={4}
-                              viewBox="0 0 3 4"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="flex-grow-0 flex-shrink-0"
-                              preserveAspectRatio="xMidYMid meet"
-                            >
-                              <circle
-                                cx="1.5"
-                                cy="2.4873"
-                                r="1.5"
-                                fill="#A0A0A0"
-                              />
-                            </svg>
-                            <svg
-                              width={3}
-                              height={4}
-                              viewBox="0 0 3 4"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="flex-grow-0 flex-shrink-0"
-                              preserveAspectRatio="xMidYMid meet"
-                            >
-                              <circle
-                                cx="1.5"
-                                cy="2.4873"
-                                r="1.5"
-                                fill="#A0A0A0"
-                              />
-                            </svg>
+                        {editMode ? (
+                          <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]"
+                          />
+                        ) : (
+                          <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
+                            <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-1">
+                              <svg
+                                width={3}
+                                height={4}
+                                viewBox="0 0 3 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="flex-grow-0 flex-shrink-0"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <circle
+                                  cx="1.5"
+                                  cy="2.4873"
+                                  r="1.5"
+                                  fill="#A0A0A0"
+                                />
+                              </svg>
+                              <svg
+                                width={3}
+                                height={4}
+                                viewBox="0 0 3 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="flex-grow-0 flex-shrink-0"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <circle
+                                  cx="1.5"
+                                  cy="2.4873"
+                                  r="1.5"
+                                  fill="#A0A0A0"
+                                />
+                              </svg>
+                              <svg
+                                width={3}
+                                height={4}
+                                viewBox="0 0 3 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="flex-grow-0 flex-shrink-0"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <circle
+                                  cx="1.5"
+                                  cy="2.4873"
+                                  r="1.5"
+                                  fill="#A0A0A0"
+                                />
+                              </svg>
+                              <svg
+                                width={3}
+                                height={4}
+                                viewBox="0 0 3 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="flex-grow-0 flex-shrink-0"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <circle
+                                  cx="1.5"
+                                  cy="2.4873"
+                                  r="1.5"
+                                  fill="#A0A0A0"
+                                />
+                              </svg>
+                              <svg
+                                width={3}
+                                height={4}
+                                viewBox="0 0 3 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="flex-grow-0 flex-shrink-0"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <circle
+                                  cx="1.5"
+                                  cy="2.4873"
+                                  r="1.5"
+                                  fill="#A0A0A0"
+                                />
+                              </svg>
+                              <svg
+                                width={3}
+                                height={4}
+                                viewBox="0 0 3 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="flex-grow-0 flex-shrink-0"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <circle
+                                  cx="1.5"
+                                  cy="2.4873"
+                                  r="1.5"
+                                  fill="#A0A0A0"
+                                />
+                              </svg>
+                              <svg
+                                width={3}
+                                height={4}
+                                viewBox="0 0 3 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="flex-grow-0 flex-shrink-0"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <circle
+                                  cx="1.5"
+                                  cy="2.4873"
+                                  r="1.5"
+                                  fill="#A0A0A0"
+                                />
+                              </svg>
+                              <svg
+                                width={3}
+                                height={4}
+                                viewBox="0 0 3 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="flex-grow-0 flex-shrink-0"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <circle
+                                  cx="1.5"
+                                  cy="2.4873"
+                                  r="1.5"
+                                  fill="#A0A0A0"
+                                />
+                              </svg>
+                            </div>
+                            <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-3 py-2 rounded-md bg-white">
+                              <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-black">
+                                변경
+                              </p>
+                            </div>
                           </div>
-                          <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-3 py-2 rounded-md bg-white">
-                            <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-black">
-                              변경
-                            </p>
-                          </div>
-                        </div>
+                        )}
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col justify-start items-end self-stretch flex-grow-0 flex-shrink-0 gap-5">
                     <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 w-[391px] relative gap-[9.123940467834473px] px-[14.598304748535156px] py-[18.247880935668945px] rounded-[9.12px] bg-[#444]">
                       <p className="flex-grow-0 flex-shrink-0 text-[14.598304748535156px] font-bold text-left text-white">
-                        정보수정
+                        <button
+                          onClick={() => setEditMode(true)}
+                          className="px-4 py-2 bg-green-500 text-white rounded"
+                        >
+                          정보수정
+                        </button>
                       </p>
                     </div>
+                    {editMode && (
+                      <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 w-[391px] relative gap-[9.123940467834473px] px-[14.598304748535156px] py-[18.247880935668945px] rounded-[9.12px]">
+                        <button
+                          onClick={handleSaveProfile}
+                          className="px-4 py-2 bg-blue-500 text-white rounded"
+                        >
+                          저장
+                        </button>
+                        <button
+                          onClick={() => setEditMode(false)}
+                          className="px-4 py-2 bg-gray-500 text-white rounded"
+                        >
+                          취소
+                        </button>
+                      </div>
+                    )}
                     <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1.5">
                       <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-right text-[#444]">
                         <button
