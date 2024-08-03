@@ -36,7 +36,7 @@ const useProfileStore = create<TProfileStore>((set) => ({
   updateProfile: async (profile: Profile) => {
     try {
       const res = await fetch("/profile", {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
