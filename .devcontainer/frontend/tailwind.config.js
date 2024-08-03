@@ -24,6 +24,21 @@ export default {
       red: "#FF0101",
       orange: "#FFB724",
       blue: "#2768FF",
+
+      text_default: "#232527",
+      text_sub: "#444444",
+      text_info: "#777777",
+      text_disabled: "",
+      text_success: "#2768FF",
+      text_error: "#FF0101",
+
+      icon_default: "",
+      icon_sub: "#777777",
+      icon_disabled: "#BFBFBF",
+
+      border_defalut: "",
+      border_sub: "",
+      border_disabled: "",
     },
   },
   plugins: [],
