@@ -9,16 +9,39 @@ import { ChangeEvent, useState } from "react";
 const Login = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const handleUserIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserId(e.target.value);
+    setError(null);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+    setError(null);
   };
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); // 기본 폼 제출 동작 방지
+
+    if (userId.trim() === "") {
+      setError("아이디를 입력해 주세요.");
+      return;
+    } else if (password.trim() === "") {
+      setError("비밀번호를 입력해 주세요.");
+      return;
+    }
+
+    // 아이디/비밀번호 유효성 검사 - 계정 존재 여부
+    /*
+     setError(
+       "아이디 또는 비밀번호가 일치하지 않습니다. 아이디와 비밀번호를 정확히 입력해 주세요."
+     );
+     */
+
+    // 유효성 검사 통과
+    setError(null);
+
     // 로그인 로직 추가
   };
 
@@ -52,13 +75,16 @@ const Login = () => {
                 />
               </div>
 
-              <div className="remember-forgot">
+              <div className="remember-forgot mb-[12px]">
                 <CheckBox
                   label="로그인 상태 유지"
                   labelClassName="text-text_sub"
                   inputClassName="mr-[9px] w-[20px] h-[20px]"
                 />
               </div>
+
+              {/* error message */}
+              <p className="text-red text-[12px]">{error}</p>
             </div>
 
             {/* TODO: 비동기 작업 중엔 disabled true로 설정 */}

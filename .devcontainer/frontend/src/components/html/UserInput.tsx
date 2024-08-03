@@ -5,7 +5,6 @@ interface UserInputProps {
   value: string;
   name: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  required?: boolean; // 선택적 prop
 }
 
 const UserInput = ({
@@ -15,7 +14,6 @@ const UserInput = ({
   value,
   name,
   onChange,
-  required = true,
 }: UserInputProps) => {
   return (
     <>
@@ -28,7 +26,7 @@ const UserInput = ({
           value={value} // 전송할 입력값 지정
           name={name}
           onChange={onChange}
-          required={required}
+          // required={required}
         />
       </label>
     </>
