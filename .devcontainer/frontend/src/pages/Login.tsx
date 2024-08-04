@@ -21,6 +21,10 @@ const Login = () => {
     setError(null);
   };
 
+  const handleClearUserId = () => {
+    setUserId("");
+  };
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault(); // 기본 폼 제출 동작 방지
 
@@ -61,6 +65,7 @@ const Login = () => {
                   value={userId}
                   name="userId"
                   onChange={handleUserIdChange}
+                  onClear={handleClearUserId}
                 />
               </div>
 
@@ -84,7 +89,7 @@ const Login = () => {
               </div>
 
               {/* error message */}
-              <p className="text-red text-[12px]">{error}</p>
+              {error && <p className="text-red text-[12px]">{error}</p>}
             </div>
 
             {/* TODO: 비동기 작업 중엔 disabled true로 설정 */}
