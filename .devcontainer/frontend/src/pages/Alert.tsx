@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import LNB from "../components/Lnb";
+import Sidebar from "../components/Sidebar";
 import AlertList from "../components/AlertList";
 import useAlertStore from "../stores/alertStore";
 
@@ -17,7 +17,7 @@ const Alert = (): JSX.Element => {
 
   return (
     <div className="flex bg-neutral-50 min-h-screen">
-      <LNB />
+      <Sidebar />
       <div className="flex flex-col justify-start items-start w-[1056px] gap-6">
         <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-3">
           <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5 px-4">
