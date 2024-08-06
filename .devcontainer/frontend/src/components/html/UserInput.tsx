@@ -1,6 +1,6 @@
 import { useState } from "react";
-import eyeActiveOffIcon from "../../assets/eyeActiveOffIcon.svg";
-import eyeActiveOnIcon from "../../assets/eyeActiveOnIcon.svg";
+import eyeOn from "../../assets/eyeOn.svg";
+import eyeOff from "../../assets/eyeOff.svg";
 import textResetIcon from "../../assets/textResetIcon.svg";
 
 interface UserInputProps {
@@ -65,13 +65,13 @@ const UserInput = ({
           )}
           {type === "password" && (
             <div
-              className="absolute right-[16px] transform top-[calc(50%-4px)] cursor-pointer"
+              className="absolute right-[16px] transform top-[calc(50%-8px)] cursor-pointer"
               onClick={togglePasswordVisibility}
             >
               {showPassword ? (
-                <img src={eyeActiveOnIcon} aria-label="Show Password" />
+                <img src={eyeOn} aria-label="Show Password" />
               ) : (
-                <img src={eyeActiveOffIcon} aria-label="Hide Password" />
+                <img src={eyeOff} aria-label="Hide Password" />
               )}
             </div>
           )}
