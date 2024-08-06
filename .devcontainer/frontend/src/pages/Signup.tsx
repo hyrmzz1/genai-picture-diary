@@ -47,6 +47,12 @@ const Signup = () => {
     // 로그인 로직 추가
   };
 
+  const checkBoxData = [
+    { label: "만 14세 이상입니다", isViewModalDisabled: false },
+    { label: "[필수] 이용약관 동의", isViewModalDisabled: true },
+    { label: "[필수] 개인정보 수집 및 이용 동의", isViewModalDisabled: true },
+  ];
+
   return (
     <>
       <PageLogo />
@@ -112,44 +118,22 @@ const Signup = () => {
                 labelClassName="text-text_default"
                 inputClassName="mr-[9px] w-[20px] h-[20px]"
               />
-              <div className="mt-[20px] ml-[16px] flex items-center justify-between">
-                <CheckBox
-                  label="만 14세 이상입니다"
-                  labelClassName="text-text_default"
-                  inputClassName="mr-[9px] w-[20px] h-[20px]"
-                />
-                <button
-                  className="text-text_sub text-[14px] underline"
-                  disabled
-                >
-                  보기
-                </button>
-              </div>
-              <div className="mt-[20px] ml-[16px] flex items-center justify-between">
-                <CheckBox
-                  label="[필수] 이용약관 동의"
-                  labelClassName="text-text_default"
-                  inputClassName="mr-[9px] w-[20px] h-[20px]"
-                />
-                <button
-                  className="text-text_sub text-[14px] underline"
-                  disabled
-                >
-                  보기
-                </button>
-              </div>
-              <div className="mt-[20px] ml-[16px] flex items-center justify-between">
-                <CheckBox
-                  label="[필수] 개인정보 수집 및 이용 동의"
-                  labelClassName="text-text_default"
-                  inputClassName="mr-[9px] w-[20px] h-[20px]"
-                />
-                <button
-                  className="text-text_sub text-[14px] underline"
-                  disabled
-                >
-                  보기
-                </button>
+              <div className="ml-[16px]">
+                {checkBoxData.map((data) => (
+                  <div className="mt-[20px] flex items-center justify-between">
+                    <CheckBox
+                      label={data.label}
+                      labelClassName="text-text_default"
+                      inputClassName="mr-[9px] w-[20px] h-[20px]"
+                    />
+                    <button
+                      className="text-text_sub text-[14px] underline"
+                      disabled={data.isViewModalDisabled}
+                    >
+                      보기
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
