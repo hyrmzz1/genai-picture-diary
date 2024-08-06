@@ -57,89 +57,87 @@ const Signup = () => {
     <>
       <PageLogo />
       <FormWrapper title="회원가입">
-        <>
-          <div className="my-6">
-            <div>
-              <UserInput
-                label="이름"
-                placeholder="이름"
-                type="text"
-                value={userName}
-                name="userName"
-                onChange={handleUserNameChange}
-              />
-            </div>
-            <div>
-              <UserInput
-                label="휴대전화번호"
-                placeholder="휴대전화번호"
-                type="number"
-                value={userPhone}
-                name="userPhone"
-                onChange={handleUserPhoneChange}
-              />
-            </div>
-            <div>
-              <UserInput
-                label="(선택)이메일"
-                placeholder="이메일"
-                type="email"
-                value={userEmail}
-                name="userEmail"
-                onChange={handleUserEmailChange}
-              />
-            </div>
-
-            {/* divider */}
-            <div className="h-[24px] border-t border-border_disabled"></div>
-
-            <div>
-              <UserInput
-                label="인증번호"
-                placeholder="인증번호 입력"
-                type="number"
-                value={certNum}
-                name="certNum"
-                onChange={handleCertNumChange}
-              >
-                <div className="mt-2"></div>
-                <UserBtn
-                  text="인증번호 전송"
-                  onClick={handleSubmit}
-                  disabled={false}
-                  variant="sub"
-                />
-              </UserInput>
-            </div>
-
-            <div className="mb-[12px]">
-              <CheckBox
-                label="전체동의"
-                labelClassName="text-text_default"
-                inputClassName="mr-[9px] w-[20px] h-[20px]"
-              />
-              <div className="ml-[16px]">
-                {checkBoxData.map((data) => (
-                  <div className="mt-[20px] flex items-center justify-between">
-                    <CheckBox
-                      label={data.label}
-                      labelClassName="text-text_default"
-                      inputClassName="mr-[9px] w-[20px] h-[20px]"
-                    />
-                    <button
-                      className="text-text_sub text-[14px] underline"
-                      disabled={data.isViewModalDisabled}
-                    >
-                      보기
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
+        <div className="my-6">
+          <div>
+            <UserInput
+              label="이름"
+              placeholder="이름"
+              type="text"
+              value={userName}
+              name="userName"
+              onChange={handleUserNameChange}
+            />
+          </div>
+          <div>
+            <UserInput
+              label="휴대전화번호"
+              placeholder="휴대전화번호"
+              type="number"
+              value={userPhone}
+              name="userPhone"
+              onChange={handleUserPhoneChange}
+            />
+          </div>
+          <div>
+            <UserInput
+              label="(선택)이메일"
+              placeholder="이메일"
+              type="email"
+              value={userEmail}
+              name="userEmail"
+              onChange={handleUserEmailChange}
+            />
           </div>
 
-          <UserBtn text="다음" onClick={handleSubmit} disabled={false} />
-        </>
+          {/* divider */}
+          <div className="h-[24px] border-t border-border_disabled"></div>
+
+          <div>
+            <UserInput
+              label="인증번호"
+              placeholder="인증번호 입력"
+              type="number"
+              value={certNum}
+              name="certNum"
+              onChange={handleCertNumChange}
+            >
+              <div className="mt-2"></div>
+              <UserBtn
+                text="인증번호 전송"
+                onClick={handleSubmit}
+                disabled={false}
+                variant="sub"
+              />
+            </UserInput>
+          </div>
+
+          <div className="mb-[12px]">
+            <CheckBox
+              label="전체동의"
+              labelClassName="text-text_default"
+              inputClassName="mr-[9px] w-[20px] h-[20px]"
+            />
+            <div className="ml-[16px]">
+              {checkBoxData.map((data) => (
+                <div className="mt-[20px] flex items-center justify-between">
+                  <CheckBox
+                    label={data.label}
+                    labelClassName="text-text_default"
+                    inputClassName="mr-[9px] w-[20px] h-[20px]"
+                  />
+                  <button
+                    className="text-text_sub text-[14px] underline"
+                    disabled={data.isViewModalDisabled}
+                  >
+                    보기
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <UserBtn text="다음" onClick={handleSubmit} disabled={false} />
       </FormWrapper>
     </>
   );
