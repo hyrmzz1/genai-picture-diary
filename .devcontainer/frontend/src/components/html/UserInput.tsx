@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import eyeOn from "../../assets/eyeOn.svg";
 import eyeOff from "../../assets/eyeOff.svg";
 import textResetIcon from "../../assets/textResetIcon.svg";
@@ -11,6 +11,7 @@ interface UserInputProps {
   name: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onClear?: () => void;
+  children?: ReactNode;
 }
 
 const UserInput = ({
@@ -21,6 +22,7 @@ const UserInput = ({
   name,
   onChange,
   onClear,
+  children,
 }: UserInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -42,9 +44,11 @@ const UserInput = ({
 
   return (
     <>
-      <label className="block mb-[20px] text-[14px]">
+      <label className="block mb-[24px] text-[14px]">
         {label}
         <div className="relative">
+          {/* UserBtn을 label과 input 사이에 배치하기 위함 */}
+          {children}
           <input
             className="appearance-none bg-gray50 border border-gray400 focus:bg-white focus:border-blue focus:outline-none rounded-md w-full py-[20px] px-[16px] text-text_default mt-2"
             type={showPassword ? "text" : type}
@@ -55,7 +59,8 @@ const UserInput = ({
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
           />
-          {type !== "password" && isFocused && (
+          {/* 로그인 페이지의 아이디 input에만 노출 */}
+          {name === "userId" && isFocused && (
             <div
               className="absolute right-[16px] transform top-[calc(50%-4px)] cursor-pointer"
               onMouseDown={handleClearInput} // onClick 사용시 에러 발생

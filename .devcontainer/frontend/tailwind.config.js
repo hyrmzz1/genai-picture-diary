@@ -38,7 +38,11 @@ export default {
 
       border_defalut: "",
       border_sub: "",
-      border_disabled: "",
+      border_disabled: "#EFEFEF",
+
+      Bg_default: "#FFFFFF",
+      Bg_light: "#FAFAFA",
+      Bg_deep: "#F5F5F5",
     },
   },
   plugins: [],
