@@ -19,14 +19,9 @@ def send_alert():
     else:
         data = request.form
 
-    alert_type = data.get('alert_type')
-    message = data.get('message')
-    group_id = data.get('group_id')
-    user_id = data.get('user_id')
-    
-    # 그룹에 알림 보내기
-    alert = Alert(alert_type=alert_type, group_id=group_id, user_id=user_id, message=message)
+    alert_fields = ['alert_type', 'message', 'group_id', 'user_id']
+    alert = Alert(**{field: data[field] for field in alert_fields})
     if alert:
         alert.send_alert()
 
-    return jsonify({'message': f'{alert_type} alert sent successfully'}), 200
+    return jsonify({'message': f'{data["alert_type"]} alert sent successfully'}), 200

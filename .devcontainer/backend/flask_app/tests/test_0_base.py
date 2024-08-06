@@ -1,6 +1,10 @@
+import os
+import sys
+# 현재 스크립트의 부모 디렉터리를 상위로 추가
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import unittest
 
-from tests.test_config import TestConfig
+from test_config import TestConfig
 from src.factory import create_app
 from src.api.models.base import g_db
 

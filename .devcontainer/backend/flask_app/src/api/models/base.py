@@ -22,11 +22,22 @@ class BaseModel(g_db.Model):
     __abstract__ = True                                                            
     id = g_db.Column(g_db.Integer, primary_key=True)                                   
     date_created = g_db.Column(g_db.DateTime, default=get_korea_time())
+
+    @classmethod
+    def unique_check(cls, **kwargs):
+        return g_db.session.query(cls).filter_by(**kwargs).first()
     
     @classmethod
     def get_instance(cls, id):
-        return g_db.session.query(cls).get(id)
+        return g_db.session.get(cls, id)
     
+    @classmethod
+    def get_instances_list(cls, **kwargs):
+        query = g_db.session.query(cls)
+        for key, value in kwargs.items():
+            query = query.filter_by(**{key: value})
+        return query.all()
+        
     @classmethod
     def get_all(cls):
         return g_db.session.query(cls).all()

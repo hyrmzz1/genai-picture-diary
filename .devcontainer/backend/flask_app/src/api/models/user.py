@@ -5,6 +5,7 @@ from flask_admin.form import Select2Widget
 from wtforms import PasswordField, SelectField, StringField
 from wtforms.validators import DataRequired
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.inspection import inspect
 import enum
 
 from src.api.models.base import AdminBase, BaseModel, g_db
@@ -57,8 +58,21 @@ class User(BaseModel, UserMixin):
     
     def update_user(self, data):
         if 'password' in data or 'login_id' in data:
-            return print('유효하지 않은 입력')
+            return
+            # return print('유효하지 않은 입력')
         
+        # unique 제약 조건 필드 확인
+        unique_columns = [column.name for column in self.__table__.columns if column.unique]
+
+        # 고유 제약 조건 확인 및 중복 검사
+        for field in unique_columns:
+            if field in data:
+                existing_instance = self.unique_check(**{field: data[field]})
+
+                if existing_instance and existing_instance.id != self.id:
+                    return
+                    # return print(f'{field}에 중복값이 존재합니다.')
+                
         for key, value in data.items():
             if key in self.__table__.columns:
                 setattr(self, key, value)

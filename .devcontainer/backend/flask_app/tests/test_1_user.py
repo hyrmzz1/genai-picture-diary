@@ -1,4 +1,8 @@
-from tests.test_0_base import TestBase
+import os
+import sys
+# 현재 스크립트의 부모 디렉터리를 상위로 추가
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from test_0_base import TestBase
 from src.api.models.user import User
 
 class UserTest(TestBase):
@@ -10,14 +14,14 @@ class UserTest(TestBase):
             nickname='user1', 
             login_id='user1', 
             password='123456', 
-            user_type=1
+            user_type='student'
         )
         self.user2 = User(
             fullname='user2', 
             nickname='user2', 
             login_id='user2', 
             password='123456', 
-            user_type=1
+            user_type='student'
         )
         self.user1.add_instance()
         self.user2.add_instance()
@@ -47,9 +51,8 @@ class UserTest(TestBase):
         self.user2.update_user(data)
         updated_user = User.get_instance(2)
         self.assertEqual(updated_user.nickname, "user2")
+
         data = {
-            'fullname': "update user22",
-            'nickname': "update user22",
             'password': '111111'
         }
         self.user2.update_user(data)
