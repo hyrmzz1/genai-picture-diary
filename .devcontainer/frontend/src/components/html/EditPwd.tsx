@@ -1,17 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface EditPwdProps {
   onCancel: () => void;
   onSave: (newPassword: string) => void;
+  currentPasswordFromProfile: string; // 현재 비밀번호를 받아서 비교
 }
 
-const EditPwd = ({ onCancel, onSave }: EditPwdProps) => {
+const EditPwd = ({ onCancel, onSave, currentPasswordFromProfile }: EditPwdProps) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [currentPwdValid, setCurrentPwdValid] = useState(false);
+  const [newPwdValid, setNewPwdValid] = useState(false);
+  const [confirmPwdValid, setConfirmPwdValid] = useState(false);
+
+  useEffect(() => {
+    setCurrentPwdValid(currentPassword === currentPasswordFromProfile);
+    setNewPwdValid(newPassword.length >= 6 && newPassword !== currentPasswordFromProfile);
+    setConfirmPwdValid(newPassword === confirmPassword);
+  }, [currentPassword, newPassword, confirmPassword, currentPasswordFromProfile]);
+
 
   const handleSave = () => {
-    if (newPassword !== confirmPassword) {
+    if (!confirmPwdValid) {
       alert("새 비밀번호가 일치하지 않습니다.");
       return;
     }
@@ -52,6 +63,11 @@ const EditPwd = ({ onCancel, onSave }: EditPwdProps) => {
                 />
               </svg>
             </div>
+            <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5">
+            <p className={`flex-grow w-[342px] text-xs text-left ${currentPwdValid ? "text-[#2768ff]" : "text-[#ff0101]"}`}>
+                {currentPwdValid ? "현재 비밀번호가 일치합니다." : "현재 비밀번호가 일치하지 않습니다."}
+              </p>
+      </div>
           </div>
           <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-3">
             <p className="self-stretch flex-grow-0 flex-shrink-0 w-[342px] text-[15px] font-bold text-left text-[#444]">
@@ -83,6 +99,9 @@ const EditPwd = ({ onCancel, onSave }: EditPwdProps) => {
                 />
               </svg>
             </div>
+            <p className={`self-stretch flex-grow-0 flex-shrink-0 w-[342px] text-xs text-left ${newPwdValid ? "text-[#2768ff]" : "text-[#ff0101]"}`}>
+              {newPwdValid ? "사용가능한 비밀번호입니다." : "사용불가능한 비밀번호입니다."}
+            </p>
           </div>
           <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-3">
             <p className="self-stretch flex-grow-0 flex-shrink-0 w-[342px] text-[15px] font-bold text-left text-[#444]">
@@ -114,6 +133,9 @@ const EditPwd = ({ onCancel, onSave }: EditPwdProps) => {
                 />
               </svg>
             </div>
+            <p className={`self-stretch flex-grow-0 flex-shrink-0 w-[342px] text-xs text-left ${confirmPwdValid ? "text-[#2768ff]" : "text-[#ff0101]"}`}>
+              {confirmPwdValid ? "새 비밀번호가 일치합니다." : "새 비밀번호를 다시 입력해주세요."}
+            </p>
           </div>
         </div>
         <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-2">
