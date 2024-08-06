@@ -25,8 +25,15 @@ class BaseModel(g_db.Model):
     
     @classmethod
     def get_instance(cls, id):
-        return g_db.session.query(cls).get(id)
+        return g_db.session.get(cls, id)
     
+    @classmethod
+    def get_instances_list(cls, **kwargs):
+        query = g_db.session.query(cls)
+        for key, value in kwargs.items():
+            query = query.filter_by(**{key: value})
+        return query.all()
+        
     @classmethod
     def get_all(cls):
         return g_db.session.query(cls).all()
