@@ -3,12 +3,12 @@ import profileImage from "../assets/rabbit.svg";
 
 const Sidebar = () => {
   return (
-    <div className="w-[260px] h-[798px] absolute left-0 top-[58px]">
+    <div className="w-[18.05%] h-[93.24%] absolute left-0 top-[58px]">
       <Link to="/mypage">
-        <div className="flex flex-col justify-start items-center w-20 absolute left-[90px] top-[18px] gap-5">
+        <div className="flex flex-col justify-start items-center w-20 absolute left-[34.61%] top-[18px] gap-5">
           <img
             src={profileImage}
-            className="flex-grow-0 flex-shrink-0 w-[60px] h-[60px] rounded-[333.33px] object-none border border-[#e2f1ff] "
+            className="flex-grow-0 flex-shrink-0 w-[76px] h-[76px] rounded-[333.33px] object-none border border-[#e2f1ff] "
           />
           <p className="self-stretch flex-grow-0 flex-shrink-0 w-20 text-base text-center text-[#444]">
             김초등
@@ -37,7 +37,7 @@ const Sidebar = () => {
           <Link to="/logout">로그아웃</Link>
         </p>
       </div>
-      <div className="flex justify-start items-center w-[204px] absolute left-7 top-[149px] gap-4 px-4 py-2.5 rounded-xl bg-white hover:bg-white">
+      <div className="flex justify-start items-center w-[78.46%] absolute left-7 top-[18.67%] gap-4 px-4 py-2.5 rounded-xl bg-white hover:bg-white">
         <svg
           width={24}
           height={24}
@@ -59,7 +59,7 @@ const Sidebar = () => {
           <Link to="/write">일기작성</Link>
         </p>
       </div>
-      <div className="flex justify-start items-center w-[204px] absolute left-11 top-[213px] gap-4 rounded-xl">
+      <div className="flex justify-start items-center w-[14.16%] absolute left-11 top-[26.69%] gap-4 rounded-xl">
         <svg
           width={24}
           height={24}

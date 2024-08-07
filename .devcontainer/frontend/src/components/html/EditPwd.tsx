@@ -16,7 +16,7 @@ const EditPwd = ({ onCancel, onSave, currentPasswordFromProfile }: EditPwdProps)
 
   useEffect(() => {
     setCurrentPwdValid(currentPassword === currentPasswordFromProfile);
-    setNewPwdValid(newPassword.length >= 6 && newPassword !== currentPasswordFromProfile);
+    setNewPwdValid(newPassword.length >= 8 && newPassword !== currentPasswordFromProfile);
     setConfirmPwdValid(newPassword === confirmPassword);
   }, [currentPassword, newPassword, confirmPassword, currentPasswordFromProfile]);
 
@@ -100,7 +100,7 @@ const EditPwd = ({ onCancel, onSave, currentPasswordFromProfile }: EditPwdProps)
               </svg>
             </div>
             <p className={`self-stretch flex-grow-0 flex-shrink-0 w-[342px] text-xs text-left ${newPwdValid ? "text-[#2768ff]" : "text-[#ff0101]"}`}>
-              {newPwdValid ? "사용가능한 비밀번호입니다." : "사용불가능한 비밀번호입니다."}
+              {newPwdValid ? "사용가능한 비밀번호입니다." : "8자리 이상으로 입력해주세요."}
             </p>
           </div>
           <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-3">
