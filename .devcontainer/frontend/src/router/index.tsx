@@ -20,15 +20,15 @@ const router = createBrowserRouter([
         path: "/signup",
         element: <Signup />,
       },
-      {
-        path: "/mypage",
-        element: <Mypage />,
-      },
-      {
-        path: "/alert",
-        element: <Alert />,
-      },
     ],
+  },
+  {
+    path: "/mypage",
+    element: <Mypage />,
+  },
+  {
+    path: "/alert",
+    element: <Alert />,
   },
 ]);
 export default router;
