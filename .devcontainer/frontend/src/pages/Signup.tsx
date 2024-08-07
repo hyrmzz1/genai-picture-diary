@@ -1,10 +1,10 @@
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import useMultistepForm from "../components/useMultistepForm";
 import InfoForm from "../components/InfoForm";
 import AuthForm from "../components/AuthForm";
 import RoleForm from "../components/RoleForm";
 import UserBtn from "../components/html/UserBtn";
+import SignupComplete from "../components/SignupComplete";
 
 // TODO) 동의 체크 박스 검사
 type FormData = {
@@ -42,6 +42,7 @@ const INITIAL_DATA: FormData = {
 const Signup = () => {
   const [data, setData] = useState(INITIAL_DATA);
   const [errors, setErrors] = useState<ErrorData>({});
+  const [isSignupComplete, setIsSignupComplete] = useState(false); // 회원가입 완료 여부
 
   function updateFields(fields: Partial<FormData>) {
     setData((prev) => ({ ...prev, ...fields }));
@@ -92,19 +93,17 @@ const Signup = () => {
     <RoleForm {...data} updateFields={updateFields} />,
   ]);
 
-  const navigate = useNavigate();
-
   function onSubmit(e: FormEvent) {
     e.preventDefault();
-    if (isLastStep) {
-      if (validateFields()) {
-        alert("성공적으로 가입되었습니다.");
-        console.log(data);
-        navigate("/");
-      }
-    } else {
-      next();
+
+    if (!isLastStep) return next();
+    if (validateFields()) {
+      setIsSignupComplete(true); // 회원가입 완료
     }
+  }
+
+  if (isSignupComplete) {
+    return <SignupComplete />;
   }
 
   return (

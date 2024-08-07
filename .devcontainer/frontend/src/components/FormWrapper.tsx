@@ -4,16 +4,27 @@ import PageLogo from "./html/PageLogo";
 interface FormWrapperProps {
   title: string;
   children: ReactNode;
+  titleClassname?: string;
+  customWidth?: string;
 }
 
-const FormWrapper = ({ title, children }: FormWrapperProps) => {
+const FormWrapper = ({
+  title,
+  children,
+  titleClassname = "",
+  customWidth = "",
+}: FormWrapperProps) => {
   return (
     <>
       <PageLogo />
       <div className="flex justify-center">
-        <div className="w-[480px]">
+        <div
+          className={customWidth === "" ? "w-[480px]" : `w-[${customWidth}]`}
+        >
           <form action="">
-            <h1 className="font-bold text-[24px]">{title}</h1>
+            <h1 className={`font-bold text-[24px] ${titleClassname}`}>
+              {title}
+            </h1>
             <div>{children}</div>
           </form>
         </div>
