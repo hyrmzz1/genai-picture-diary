@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useMultistepForm from "../components/useMultistepForm";
 import InfoForm from "../components/InfoForm";
 import AuthForm from "../components/AuthForm";
@@ -91,12 +92,15 @@ const Signup = () => {
     <RoleForm {...data} updateFields={updateFields} />,
   ]);
 
+  const navigate = useNavigate();
+
   function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (isLastStep) {
       if (validateFields()) {
-        alert("Successful Signup");
+        alert("성공적으로 가입되었습니다.");
         console.log(data);
+        navigate("/");
       }
     } else {
       next();
