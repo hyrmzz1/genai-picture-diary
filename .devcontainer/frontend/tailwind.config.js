@@ -28,7 +28,7 @@ export default {
       text_default: "#232527",
       text_sub: "#444444",
       text_info: "#777777",
-      text_disabled: "",
+      text_disabled: "#A0A0A0",
       text_success: "#2768FF",
       text_error: "#FF0101",
 
@@ -38,7 +38,11 @@ export default {
 
       border_defalut: "",
       border_sub: "",
-      border_disabled: "",
+      border_disabled: "#EFEFEF",
+
+      Bg_default: "#FFFFFF",
+      Bg_light: "#FAFAFA",
+      Bg_deep: "#F5F5F5",
     },
   },
   plugins: [],
