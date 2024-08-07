@@ -28,7 +28,7 @@ export default {
       text_default: "#232527",
       text_sub: "#444444",
       text_info: "#777777",
-      text_disabled: "",
+      text_disabled: "#A0A0A0",
       text_success: "#2768FF",
       text_error: "#FF0101",
 

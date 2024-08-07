@@ -6,8 +6,6 @@ import Login from "../pages/Login";
 import Mypage from "../pages/Mypage";
 import Alert from "../pages/Alert";
 import Signup from "../pages/Signup";
-import AuthForm from "../components/AuthForm";
-import RoleForm from "../components/RoleForm";
 
 const router = createBrowserRouter([
   {
@@ -21,16 +19,6 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
-      },
-      // 임시로 퍼블리싱 결과 확인하기 위해 경로 추가 (/signup2, /signup3)
-      // multistep form 구현하면 삭제 예정
-      {
-        path: "/signup2",
-        element: <AuthForm />,
-      },
-      {
-        path: "/signup3",
-        element: <RoleForm />,
       },
       {
         path: "/mypage",

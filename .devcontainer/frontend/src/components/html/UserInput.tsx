@@ -12,6 +12,7 @@ interface UserInputProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onClear?: () => void;
   children?: ReactNode;
+  message?: string;
 }
 
 const UserInput = ({
@@ -23,6 +24,7 @@ const UserInput = ({
   onChange,
   onClear,
   children,
+  message,
 }: UserInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -81,6 +83,9 @@ const UserInput = ({
             </div>
           )}
         </div>
+        {message && (
+          <p className="text-[12px] text-text_disabled mt-2">{message}</p>
+        )}
       </label>
     </>
   );

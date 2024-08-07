@@ -1,145 +1,143 @@
-import PageLogo from "../components/html/PageLogo";
-import UserInput from "../components/html/UserInput";
+import { FormEvent, useState } from "react";
+import useMultistepForm from "../components/useMultistepForm";
+import InfoForm from "../components/InfoForm";
+import AuthForm from "../components/AuthForm";
+import RoleForm from "../components/RoleForm";
 import UserBtn from "../components/html/UserBtn";
-import CheckBox from "../components/html/CheckBox";
 
-import { useState } from "react";
-import FormWrapper from "../components/FormWrapper";
+// TODO) 동의 체크 박스 검사
+type FormData = {
+  userName: string;
+  userPhone: string;
+  userEmail: string;
+  certNum: string;
+  userId: string;
+  password: string;
+  confirmPassword: string;
+  role: string;
+};
+
+type ErrorData = {
+  userName?: string;
+  userPhone?: string;
+  userEmail?: string;
+  certNum?: string;
+  userId?: string;
+  password?: string;
+  confirmPassword?: string;
+};
+
+const INITIAL_DATA: FormData = {
+  userName: "",
+  userPhone: "",
+  userEmail: "",
+  certNum: "",
+  userId: "",
+  password: "",
+  confirmPassword: "",
+  role: "",
+};
 
 const Signup = () => {
-  const [userName, setUserName] = useState("");
-  const [userPhone, setUserPhone] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [certNum, setCertNum] = useState("");
+  const [data, setData] = useState(INITIAL_DATA);
+  const [errors, setErrors] = useState<ErrorData>({});
 
-  const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(e.target.value);
-  };
+  function updateFields(fields: Partial<FormData>) {
+    setData((prev) => ({ ...prev, ...fields }));
+  }
 
-  const handleUserPhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserPhone(e.target.value);
-  };
+  // 유효성 검사 - 로직 보충 예정
+  function validateFields(): boolean {
+    let valid = true;
+    const newErrors: ErrorData = {};
 
-  const handleUserEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserEmail(e.target.value);
-  };
+    if (!data.userName.trim()) {
+      newErrors.userName = "이름을 입력해 주세요.";
+      valid = false;
+    }
+    if (!data.userPhone.trim()) {
+      newErrors.userPhone = "휴대전화번호를 입력해 주세요.";
+      valid = false;
+    }
+    if (data.userEmail && !/^\S+@\S+\.\S+$/.test(data.userEmail)) {
+      newErrors.userEmail = "유효한 이메일 주소를 입력해 주세요.";
+      valid = false;
+    }
+    if (!data.certNum.trim()) {
+      newErrors.certNum = "인증번호를 입력해 주세요.";
+      valid = false;
+    }
+    if (!data.userId.trim()) {
+      newErrors.userId = "아이디를 입력해 주세요.";
+      valid = false;
+    }
+    if (!data.password.trim()) {
+      newErrors.password = "비밀번호를 입력해 주세요.";
+      valid = false;
+    }
+    if (data.password !== data.confirmPassword) {
+      newErrors.confirmPassword = "비밀번호가 일치하지 않습니다.";
+      valid = false;
+    }
 
-  const handleCertNumChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCertNum(e.target.value);
-  };
+    setErrors(newErrors);
+    return valid;
+    // return Object.keys(newErrors).length === 0;
+  }
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // 기본 폼 제출 동작 방지
+  const { step, isFirstStep, isLastStep, back, next } = useMultistepForm([
+    <InfoForm {...data} errors={errors} updateFields={updateFields} />,
+    <AuthForm {...data} errors={errors} updateFields={updateFields} />,
+    <RoleForm {...data} updateFields={updateFields} />,
+  ]);
 
-    // 필수 입력 요소 검사 - 입력 여부, 타입 검사
-    // 입력 요소에 따른 error 메세지 노출
-
-    // 아이디/비밀번호 유효성 검사 - 계정 존재 여부
-    /*
-     setError(
-       "아이디 또는 비밀번호가 일치하지 않습니다. 아이디와 비밀번호를 정확히 입력해 주세요."
-     );
-     */
-
-    // 유효성 검사 통과
-    // setError(null);
-
-    // 로그인 로직 추가
-  };
-
-  const checkBoxData = [
-    { label: "만 14세 이상입니다", isViewModalDisabled: false },
-    { label: "[필수] 이용약관 동의", isViewModalDisabled: true },
-    { label: "[필수] 개인정보 수집 및 이용 동의", isViewModalDisabled: true },
-  ];
+  function onSubmit(e: FormEvent) {
+    e.preventDefault();
+    if (isLastStep) {
+      if (validateFields()) {
+        alert("Successful Signup");
+        console.log(data);
+      }
+    } else {
+      next();
+    }
+  }
 
   return (
-    <>
-      <PageLogo />
-      <FormWrapper title="회원가입">
-        <div className="my-6">
-          <div>
-            <UserInput
-              label="이름"
-              placeholder="이름"
-              type="text"
-              value={userName}
-              name="userName"
-              onChange={handleUserNameChange}
-            />
-          </div>
-          <div>
-            <UserInput
-              label="휴대전화번호"
-              placeholder="휴대전화번호"
-              type="number"
-              value={userPhone}
-              name="userPhone"
-              onChange={handleUserPhoneChange}
-            />
-          </div>
-          <div>
-            <UserInput
-              label="(선택)이메일"
-              placeholder="이메일"
-              type="email"
-              value={userEmail}
-              name="userEmail"
-              onChange={handleUserEmailChange}
-            />
-          </div>
-
-          {/* divider */}
-          <div className="h-[24px] border-t border-border_disabled"></div>
-
-          <div>
-            <UserInput
-              label="인증번호"
-              placeholder="인증번호 입력"
-              type="number"
-              value={certNum}
-              name="certNum"
-              onChange={handleCertNumChange}
-            >
-              <div className="mt-2"></div>
+    <div>
+      <form onSubmit={onSubmit}>
+        {step}
+        <div className="flex justify-center">
+          <div className="w-[480px]">
+            {isFirstStep ? (
               <UserBtn
-                text="인증번호 전송"
-                onClick={handleSubmit}
+                text="다음"
                 disabled={false}
-                variant="sub"
+                variant="main"
+                type="submit"
+                className="w-full"
               />
-            </UserInput>
-          </div>
-
-          <div className="mb-[12px]">
-            <CheckBox
-              label="전체동의"
-              labelClassName="text-text_default"
-              inputClassName="mr-[9px] w-[20px] h-[20px]"
-            />
-            <div className="ml-[16px]">
-              {checkBoxData.map((data) => (
-                <div className="mt-[20px] flex items-center justify-between">
-                  <CheckBox
-                    label={data.label}
-                    labelClassName="text-text_default"
-                    inputClassName="mr-[9px] w-[20px] h-[20px]"
-                  />
-                  <button
-                    className="text-text_sub text-[14px] underline"
-                    disabled={data.isViewModalDisabled}
-                  >
-                    보기
-                  </button>
-                </div>
-              ))}
-            </div>
+            ) : (
+              <div className="flex justify-between">
+                <UserBtn
+                  text="이전"
+                  onClick={back}
+                  disabled={false}
+                  className="w-[88px] bg-border_disabled font-bold"
+                />
+                <UserBtn
+                  text={isLastStep ? "가입 완료" : "다음"}
+                  type="submit"
+                  disabled={false}
+                  variant="main"
+                  className="w-[372px]"
+                />
+              </div>
+            )}
           </div>
         </div>
-
-        <UserBtn text="다음" onClick={handleSubmit} disabled={false} />
-      </FormWrapper>
-    </>
+      </form>
+    </div>
   );
 };
 
