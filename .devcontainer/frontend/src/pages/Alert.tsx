@@ -35,9 +35,9 @@ const Alert = (): JSX.Element => {
                 <path
                   d="M12 19V5M12 5L5 12M12 5L19 12"
                   stroke="#777777"
-                  stroke-width={2}
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
               <p className="flex-grow-0 flex-shrink-0 text-[15px] font-bold text-left text-[#444]">
@@ -57,9 +57,9 @@ const Alert = (): JSX.Element => {
                 <path
                   d="M12 5V19M12 19L19 12M12 19L5 12"
                   stroke="#BFBFBF"
-                  stroke-width={2}
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
               <p className="flex-grow-0 flex-shrink-0 text-[15px] font-bold text-left text-[#bfbfbf]">

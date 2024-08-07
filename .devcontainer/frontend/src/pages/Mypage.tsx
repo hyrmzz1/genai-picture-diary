@@ -85,7 +85,7 @@ const MyPage = () => {
   };
 
   return (
-    <div className="w-[1440px] h-[856px] relative overflow-hidden bg-[#cfe7fc]">      
+    <div className="w-[1440px] h-[856px] relative overflow-hidden bg-[#cfe7fc]">
       <Sidebar />
       <div className="w-[1136px] h-[774px] relative left-[280px] top-[58px] overflow-hidden rounded-[20px] bg-white">
         {!editPwdMode ? (
@@ -226,7 +226,11 @@ const MyPage = () => {
             </div>
           </div>
         ) : (
-          <EditPwd onCancel={handleEditPwdCancel} onSave={handleEditPwdSave} />
+          <EditPwd
+            onCancel={handleEditPwdCancel}
+            onSave={handleEditPwdSave}
+            currentPasswordFromProfile={""}
+          />
         )}
       </div>
       <Alarm />
