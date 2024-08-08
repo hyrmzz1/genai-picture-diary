@@ -8,7 +8,7 @@ const DeleteAccount = ({
   isOpen,
   onClose,
   onConfirm,
-}: DeleteAccountProps): JSX.Element => {
+}: DeleteAccountProps): JSX.Element | null => {
   if (!isOpen) return null;
 
   return (

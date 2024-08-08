@@ -13,7 +13,7 @@ const MyPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(true);
   //const [image, setImage] = useState("");
   const [nickname, setNickname] = useState("");
   const [fullname, setFullname] = useState("");
@@ -102,11 +102,13 @@ const MyPage = () => {
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-base font-bold text-left text-[#232527]">
                         기본정보
                       </p>
+
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                         닉네임
                       </p>
                       {editMode ? (
                         <input
+                          placeholder="닉네임을 입력해주세요."
                           type="text"
                           value={nickname}
                           onChange={(e) => setNickname(e.target.value)}
@@ -124,39 +126,21 @@ const MyPage = () => {
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                         이름
                       </p>
-                      {editMode ? (
-                        <input
-                          type="text"
-                          value={fullname}
-                          onChange={(e) => setFullname(e.target.value)}
-                          className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]"
-                        />
-                      ) : (
-                        <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
-                          <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
-                            {fullname}
-                          </p>
-                        </div>
-                      )}
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
+                        <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
+                          {fullname}
+                        </p>
+                      </div>
                     </div>
                     <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[10.948728561401367px]">
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                         아이디
                       </p>
-                      {editMode ? (
-                        <input
-                          type="text"
-                          value={login_id}
-                          onChange={(e) => setLoginId(e.target.value)}
-                          className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]"
-                        />
-                      ) : (
-                        <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
-                          <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
-                            {login_id}
-                          </p>
-                        </div>
-                      )}
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
+                        <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
+                          {login_id}
+                        </p>
+                      </div>
                     </div>
                     <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[10.948728561401367px]">
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
@@ -173,6 +157,9 @@ const MyPage = () => {
                         <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
                           <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-1"></div>
                           <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-3 py-2 rounded-md bg-white">
+                            <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
+                              {password}
+                            </p>
                             <button
                               onClick={() => setEditPwdMode(true)}
                               className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-black"
@@ -228,16 +215,18 @@ const MyPage = () => {
             </div>
           ) : (
             <EditPwd
-              onCancel={handleEditPwdCancel}
-              onSave={handleEditPwdSave}
-              currentPasswordFromProfile={""}
+              currentPasswordFromProfile={password}
+              onCancel={() => setEditPwdMode(false)}
+              onSave={(newPassword) => {
+                setPassword(newPassword);
+                setEditPwdMode(false);
+              }}
             />
           )}
         </div>
         <Alarm />
       </div>
     </div>
-
   );
 };
 

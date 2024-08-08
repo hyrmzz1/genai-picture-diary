@@ -8,7 +8,7 @@ const Alarm = () => {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-6 h-6 absolute left-[1372px] top-[18px]"
+      className="w-6 h-6 absolute left-[95.27%] top-[2.10%]"
       preserveAspectRatio="xMidYMid meet"
     >
       <Link to="/alert">

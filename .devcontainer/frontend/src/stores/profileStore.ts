@@ -20,7 +20,7 @@ const useProfileStore = create<ProfileStore>((set) => ({
   profile: null,
   fetchProfile: async () => {
     try {
-      const res = await fetch("/profile", {
+      const res = await fetch("/profile/info", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -38,7 +38,7 @@ const useProfileStore = create<ProfileStore>((set) => ({
   },
   updateProfile: async (updatedProfile) => {
     try {
-      const res = await fetch("/profile", {
+      const res = await fetch("/profile/update", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const useProfileStore = create<ProfileStore>((set) => ({
   },
   deleteProfile: async () => {
     try {
-      const res = await fetch("/profile", {
+      const res = await fetch("/profile/delete", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
