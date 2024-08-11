@@ -112,10 +112,10 @@ const MyPage = () => {
                           type="text"
                           value={nickname}
                           onChange={(e) => setNickname(e.target.value)}
-                          className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] bg-white border-[0.91px] border-[#bfbfbf]"
+                          className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] bg-white border-[0.91px] border-[#bfbfbf]"
                         />
                       ) : (
-                        <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] bg-white border-[0.91px] border-[#bfbfbf]">
+                        <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] bg-white border-[0.91px] border-[#bfbfbf]">
                           <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
                             {nickname}
                           </p>
@@ -126,7 +126,7 @@ const MyPage = () => {
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                         이름
                       </p>
-                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
                         <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
                           {fullname}
                         </p>
@@ -136,7 +136,7 @@ const MyPage = () => {
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                         아이디
                       </p>
-                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
                         <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
                           {login_id}
                         </p>
@@ -151,10 +151,10 @@ const MyPage = () => {
                           type="password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]"
+                          className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]"
                         />
                       ) : (
-                        <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-[58px] px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
+                        <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
                           <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-1"></div>
                           <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-3 py-2 rounded-md bg-white">
                             <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">

@@ -9,17 +9,17 @@ interface AlertProps {
 
 const AlertListItem = ({ alert }: AlertProps): JSX.Element => {
   return (
-    <div className="w-[1056px] h-[193px]">
-      <div className="flex flex-col justify-start items-start w-[1056px] gap-3">
+    <div className="w-[97.95%] h-[193px]">
+      <div className="flex flex-col justify-start items-start w-[92.95%] relative left-10 top-[84px] gap-3">
         <div className="flex justify-start items-start self-stretch gap-2.5 px-4">
           <p className="text-[15px] font-bold text-left text-[#444]">
             {alert.date}
           </p>
         </div>
-        <div className="flex justify-start items-start self-stretch gap-4 px-4 py-5 rounded-xl bg-white border-2 border-[#efefef]">
-          <div className="flex flex-col justify-center items-start relative overflow-hidden">
-            <div className="w-10 h-10 relative overflow-hidden rounded-full bg-[#bfbfbf]">
-              <p className="w-10 h-10 absolute left-0 top-0 text-base font-medium text-center text-white">
+        <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-4 px-4 py-5 rounded-xl bg-white border-2 border-[#efefef]">
+        <div className="flex flex-col justify-center items-start flex-grow-0 flex-shrink-0 relative overflow-hidden">
+          <div className="flex-grow-0 flex-shrink-0 w-10 h-10 relative overflow-hidden rounded-[100px] bg-[#bfbfbf]">
+            <p className="w-10 h-10 absolute left-0 top-0 text-base font-medium text-center text-white">
                 A
               </p>
             </div>

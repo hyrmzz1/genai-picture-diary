@@ -18,6 +18,12 @@ const profile: Profile = {
   user_type: 0
 };
 
+const alerts = [
+  { id: 1, title: '24/7/10 공지사항입니다.', message: '내용...', date: '2024-07-10' },
+  { id: 2, title: '24/8/20 공지사항입니다.', message: '내용...', date: '2024-08-20' },
+];
+
+
 export const handlers = [
   http.get("/profile/info", () => {
     return HttpResponse.json(profile);
@@ -29,5 +35,9 @@ export const handlers = [
   
   http.delete("/profile/delete", () => {
     return HttpResponse.json(profile);
+  }),
+
+  http.get("/alerts/list", () => {
+    return HttpResponse.json(alerts);
   }),
 ];
