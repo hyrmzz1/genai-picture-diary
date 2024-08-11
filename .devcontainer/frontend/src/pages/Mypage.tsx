@@ -1,26 +1,28 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Alarm from "../components/html/Alarm";
 import DeleteAccount from "../components/DeleteAccount";
 import profileImage from "../assets/rabbit.svg";
 import useProfileStore from "../stores/profileStore";
 import EditPwd from "../components/html/EditPwd";
-import { useNavigate } from "react-router-dom";
 
 const MyPage = () => {
   const { profile, fetchProfile, updateProfile, deleteProfile } =
     useProfileStore();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const [editMode, setEditMode] = useState(true); // 기본값을 true로 설정하여 수정모드로 시작
+  const [isDeleteAccountMode, setIsDeleteAccountMode] = useState(false); // 회원탈퇴 모드 상태 추가
   const [nickname, setNickname] = useState("");
+  const [previousNickname, setPreviousNickname] = useState("");
   const [fullname, setFullname] = useState("");
   const [login_id, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [user_type, setUserType] = useState(0);
+  const [editPwdMode, setEditPwdMode] = useState(false);
 
-  const [editPwdMode, setEditPwdMode] = useState(false); // 비밀번호 변경 모드 상태 추가
+  const navigate = useNavigate();
+
+  // 닉네임 글자 수를 계산하는 함수
+  const characterCount = nickname.length;
 
   useEffect(() => {
     fetchProfile();
@@ -29,6 +31,7 @@ const MyPage = () => {
   useEffect(() => {
     if (profile) {
       setNickname(profile.nickname);
+      setPreviousNickname(profile.nickname); // 초기 닉네임 저장
       setFullname(profile.fullname);
       setLoginId(profile.login_id);
       setPassword(profile.password);
@@ -52,23 +55,19 @@ const MyPage = () => {
     }
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleConfirm = async () => {
-    const success = await deleteProfile();
+  const handleConfirmDelete = async () => {
+    const success = await deleteProfile(); // 회원 탈퇴 API 호출
     if (success) {
       alert("회원 탈퇴가 완료되었습니다.");
-      navigate("/login");
+      navigate("/login"); // 탈퇴 후 로그인 화면으로 이동
     } else {
       alert("회원 탈퇴에 실패했습니다.");
     }
-    setIsModalOpen(false);
+    setIsDeleteAccountMode(false);
+  };
+
+  const handleCancelDelete = () => {
+    setIsDeleteAccountMode(false);
   };
 
   return (
@@ -76,12 +75,34 @@ const MyPage = () => {
       <Sidebar />
       <div className="flex flex-col flex-grow items-center justify-center bg-[#cfe7fc]">
         <div className="flex justify-center items-center w-[78.89%] h-[90.42%] absolute left-[19.44%] top-[6.77%] overflow-hidden rounded-[20px] bg-white p-10">
-          {!editPwdMode ? (
-            <div className="flex flex-col justify-start items-center w-[391px] absolute top-[8.75%] gap-10">
-              <img
-                src={profileImage}
-                className="flex-grow-0 flex-shrink-0 w-[76px] h-[76px] rounded-[422.22px] object-none border-[1.27px] border-[#e2e2e2]"
-              />
+          {isDeleteAccountMode ? (
+            <DeleteAccount
+              onConfirm={handleConfirmDelete}
+              onClose={handleCancelDelete}
+              isOpen={true}
+            />
+          ) : editPwdMode ? (
+            <EditPwd
+              currentPasswordFromProfile={password}
+              onCancel={() => setEditPwdMode(false)}
+              onSave={(newPassword) => {
+                setPassword(newPassword);
+                setEditPwdMode(false);
+              }}
+            />
+          ) : (
+            <div className="flex flex-col justify-start items-center w-[391px] absolute top-[48.75px] gap-10">
+              <div className="flex flex-col justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-5">
+                <img
+                  src={profileImage}
+                  className="flex-grow-0 flex-shrink-0 w-[76px] h-[76px] rounded-[422.22px] object-none border-[1.27px] border-[#e2e2e2]"
+                />
+                {previousNickname && (
+                  <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-base text-center text-black">
+                    {previousNickname}
+                  </p>
+                )}
+              </div>
               <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-10">
                 <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-10">
                   <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-[18.247880935668945px]">
@@ -93,19 +114,25 @@ const MyPage = () => {
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                         닉네임
                       </p>
-                      <input
-                        placeholder="닉네임을 입력해주세요."
-                        type="text"
-                        value={nickname}
-                        onChange={(e) => setNickname(e.target.value)}
-                        className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] bg-white border-[0.91px] border-[#bfbfbf]"
-                      />
+                      <div className="relative flex justify-between items-center w-[391px] h-12 px-4 py-[15px] rounded-[9.12px] bg-white border-[0.91px] border-[#bfbfbf]">
+                        <input
+                          placeholder="별명"
+                          type="text"
+                          value={nickname}
+                          maxLength={10}
+                          onChange={(e) => setNickname(e.target.value)}
+                          className="flex-grow-1 w-full h-full text-[15px] text-left text-[#232527] bg-transparent outline-none"
+                        />
+                        <span className="absolute right-4 text-[15px] text-[#a0a0a0]">
+                          {characterCount}/10
+                        </span>
+                      </div>
                     </div>
                     <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[10.948728561401367px] border-[#bfbfbf]">
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                         이름
                       </p>
-                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf] bg-neutral-50">
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf] bg-[#f5f5f5]">
                         <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
                           {fullname}
                         </p>
@@ -115,7 +142,7 @@ const MyPage = () => {
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                         아이디
                       </p>
-                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf] bg-neutral-50">
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf] bg-[#f5f5f5]">
                         <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
                           {login_id}
                         </p>
@@ -125,13 +152,13 @@ const MyPage = () => {
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                         비밀번호
                       </p>
-                      <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">                    
+                      <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf] bg-[#f5f5f5]">
                         <input
                           type="password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           className="flex-grow-1 text-[15px] text-left text-[#a0a0a0] focus:outline-none"
-                          disabled                          
+                          disabled
                         />
                         <button
                           onClick={() => setEditPwdMode(true)}
@@ -152,16 +179,11 @@ const MyPage = () => {
                   <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1.5">
                     <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-right text-[#444]">
                       <button
-                        onClick={handleOpenModal}
+                        onClick={() => setIsDeleteAccountMode(true)}
                         className="px-4 py-2 bg-red-500 text-[#444] rounded"
                       >
                         회원탈퇴
                       </button>
-                      <DeleteAccount
-                        isOpen={isModalOpen}
-                        onClose={handleCloseModal}
-                        onConfirm={handleConfirm}
-                      />
                     </p>
                     <svg
                       width={24}
@@ -184,15 +206,6 @@ const MyPage = () => {
                 </div>
               </div>
             </div>
-          ) : (
-            <EditPwd
-              currentPasswordFromProfile={password}
-              onCancel={() => setEditPwdMode(false)}
-              onSave={(newPassword) => {
-                setPassword(newPassword);
-                setEditPwdMode(false);
-              }}
-            />
           )}
         </div>
         <Alarm />
