@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import Alarm from "../components/html/Alarm";
 import DeleteAccount from "../components/DeleteAccount";
@@ -13,8 +13,7 @@ const MyPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const [editMode, setEditMode] = useState(true);
-  //const [image, setImage] = useState("");
+  const [editMode, setEditMode] = useState(true); // 기본값을 true로 설정하여 수정모드로 시작
   const [nickname, setNickname] = useState("");
   const [fullname, setFullname] = useState("");
   const [login_id, setLoginId] = useState("");
@@ -29,7 +28,6 @@ const MyPage = () => {
 
   useEffect(() => {
     if (profile) {
-      //setImage(profile.profileImage);
       setNickname(profile.nickname);
       setFullname(profile.fullname);
       setLoginId(profile.login_id);
@@ -40,7 +38,6 @@ const MyPage = () => {
 
   const handleSaveProfile = async () => {
     const updatedProfile = {
-      //profileImage: image,
       nickname,
       fullname,
       login_id,
@@ -49,7 +46,6 @@ const MyPage = () => {
     };
     const success = await updateProfile(updatedProfile);
     if (success) {
-      setEditMode(false);
       alert("프로필이 업데이트되었습니다.");
     } else {
       alert("프로필 업데이트에 실패했습니다.");
@@ -75,22 +71,13 @@ const MyPage = () => {
     setIsModalOpen(false);
   };
 
-  const handleEditPwdSave = (newPassword: string) => {
-    setPassword(newPassword);
-    setEditPwdMode(false);
-  };
-
-  const handleEditPwdCancel = () => {
-    setEditPwdMode(false);
-  };
-
   return (
     <div className="w-full h-screen flex">
       <Sidebar />
       <div className="flex flex-col flex-grow items-center justify-center bg-[#cfe7fc]">
-        <div className="w-[78.89%] h-[90.42%] absolute left-[19.44%] top-[6.77%] overflow-hidden rounded-[20px] bg-white p-10">
+        <div className="flex justify-center items-center w-[78.89%] h-[90.42%] absolute left-[19.44%] top-[6.77%] overflow-hidden rounded-[20px] bg-white p-10">
           {!editPwdMode ? (
-            <div className="flex flex-col justify-start items-center w-[391px] left-[32.83%] top-[8.75%] relative gap-10">
+            <div className="flex flex-col justify-start items-center w-[391px] absolute top-[8.75%] gap-10">
               <img
                 src={profileImage}
                 className="flex-grow-0 flex-shrink-0 w-[76px] h-[76px] rounded-[422.22px] object-none border-[1.27px] border-[#e2e2e2]"
@@ -106,69 +93,53 @@ const MyPage = () => {
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                         닉네임
                       </p>
-                      {editMode ? (
-                        <input
-                          placeholder="닉네임을 입력해주세요."
-                          type="text"
-                          value={nickname}
-                          onChange={(e) => setNickname(e.target.value)}
-                          className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] bg-white border-[0.91px] border-[#bfbfbf]"
-                        />
-                      ) : (
-                        <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] bg-white border-[0.91px] border-[#bfbfbf]">
-                          <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
-                            {nickname}
-                          </p>
-                        </div>
-                      )}
+                      <input
+                        placeholder="닉네임을 입력해주세요."
+                        type="text"
+                        value={nickname}
+                        onChange={(e) => setNickname(e.target.value)}
+                        className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] bg-white border-[0.91px] border-[#bfbfbf]"
+                      />
                     </div>
-                    <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[10.948728561401367px]">
+                    <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[10.948728561401367px] border-[#bfbfbf]">
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                         이름
                       </p>
-                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf] bg-neutral-50">
                         <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
                           {fullname}
                         </p>
                       </div>
                     </div>
-                    <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[10.948728561401367px]">
+                    <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[10.948728561401367px] border-[#bfbfbf] ">
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                         아이디
                       </p>
-                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
+                      <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 relative px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf] bg-neutral-50">
                         <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
                           {login_id}
                         </p>
                       </div>
                     </div>
-                    <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[10.948728561401367px]">
+                    <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[10.948728561401367px] border-[#bfbfbf]">
                       <p className="self-stretch flex-grow-0 flex-shrink-0 w-[391px] text-[15px] text-left text-[#444]">
                         비밀번호
                       </p>
-                      {editMode ? (
+                      <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">                    
                         <input
                           type="password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]"
+                          className="flex-grow-1 text-[15px] text-left text-[#a0a0a0] focus:outline-none"
+                          disabled                          
                         />
-                      ) : (
-                        <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-[391px] h-12 px-4 py-[18px] rounded-[9.12px] border-[0.91px] border-[#bfbfbf]">
-                          <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-1"></div>
-                          <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-3 py-2 rounded-md bg-white">
-                            <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0]">
-                              {password}
-                            </p>
-                            <button
-                              onClick={() => setEditPwdMode(true)}
-                              className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-black"
-                            >
-                              변경
-                            </button>
-                          </div>
-                        </div>
-                      )}
+                        <button
+                          onClick={() => setEditPwdMode(true)}
+                          className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-black"
+                        >
+                          변경
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -179,7 +150,7 @@ const MyPage = () => {
                     </p>
                   </div>
                   <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1.5">
-                    <p className="flex-grow-0 flex-shrink-0 text-base fon t-bold text-right text-[#444]">
+                    <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-right text-[#444]">
                       <button
                         onClick={handleOpenModal}
                         className="px-4 py-2 bg-red-500 text-[#444] rounded"

@@ -14,7 +14,7 @@ const profile: Profile = {
   nickname: "우리반장",
   fullname: "김철수",
   login_id: "rabbit77",
-  password: "securepassword",
+  password: "123456",
   user_type: 0
 };
 
