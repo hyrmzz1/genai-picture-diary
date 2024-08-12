@@ -1,23 +1,43 @@
 import { http, HttpResponse } from "msw";
 
 interface Profile {
-  profileImage: string;
+  // profileImage: string;
   nickname: string;
-  name: string;
-  uid: string;
+  fullname: string;
+  login_id: string;
   password: string;
+  user_type: number;
 }
 
 const profile: Profile = {
-  profileImage: "/assets/rabbit.svg",
+  //profileImage: "/assets/rabbit.svg",
   nickname: "우리반장",
-  name: "김철수",
-  uid: "rabbit77",
-  password: "securepassword",
+  fullname: "김철수",
+  login_id: "rabbit77",
+  password: "123456",
+  user_type: 0
 };
 
+const alerts = [
+  { id: 1, title: '24/7/10 공지사항입니다.', message: '업데이트 내용입니다.', date: '2024-07-10' },
+  { id: 2, title: '24/8/20 공지사항입니다.', message: '업데이트 내용입니다.', date: '2024-08-20' },
+];
+
+
 export const handlers = [
-  http.get("/profile", () => {
+  http.get("/profile/info", () => {
     return HttpResponse.json(profile);
+  }),
+  
+  http.post("/profile/update", () => {
+    return HttpResponse.json(profile);
+  }),
+  
+  http.delete("/profile/delete", () => {
+    return HttpResponse.json(profile);
+  }),
+
+  http.get("/alerts/list", () => {
+    return HttpResponse.json(alerts);
   }),
 ];
