@@ -14,7 +14,11 @@ interface UserInputProps {
   children?: ReactNode;
   message?: string;
   disabled?: boolean;
-  variant?: string; // 인풋 스타일 (bgcolor 유무)
+  variant?: {
+    bgless?: boolean; // true - 배경색 미적용, false - 배경색 적용
+    smPadding?: boolean; // padding 사이즈 (true - 마이페이지, false - 로그인/회원가입)
+  };
+  showCharacterCount?: boolean; // 글자 수 표시 여부 (마이페이지 별명 입력 필드에 사용)
 }
 
 const UserInput = ({
@@ -28,7 +32,8 @@ const UserInput = ({
   children,
   message,
   disabled = false,
-  variant,
+  variant = {},
+  showCharacterCount = false,
 }: UserInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -48,7 +53,11 @@ const UserInput = ({
     console.log(showPassword);
   };
 
-  const variantClass = variant === "nonBgcolor" ? "" : "bg-gray50";
+  const backgroundClass = variant.bgless ? "" : "bg-gray50";
+
+  const paddingClass = variant.smPadding
+    ? "py-[16px] px-[14px]"
+    : "py-[20px] px-[16px]";
 
   return (
     <>
@@ -58,7 +67,7 @@ const UserInput = ({
           {/* UserBtn을 label과 input 사이에 배치하기 위함 */}
           {children}
           <input
-            className={`appearance-none border border-gray400 focus:bg-white focus:border-blue focus:outline-none rounded-md w-full py-[20px] px-[16px] text-text_default mt-2 ${variantClass}`}
+            className={`appearance-none border border-gray400 focus:bg-white focus:border-blue focus:outline-none rounded-md w-full text-text_default mt-2 ${backgroundClass} ${paddingClass}`}
             type={showPassword ? "text" : type}
             placeholder={placeholder}
             value={value} // 전송할 입력값 지정
@@ -87,6 +96,11 @@ const UserInput = ({
               ) : (
                 <img src={eyeOff} aria-label="Hide Password" />
               )}
+            </div>
+          )}
+          {showCharacterCount && (
+            <div className="absolute right-[16px] transform top-[calc(50%-8px)] text-text_disabled">
+              {value.length}/10
             </div>
           )}
         </div>
