@@ -4,7 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "../components/Layout";
 import Login from "../pages/Login";
 import Mypage from "../pages/Mypage";
-import Alert from "../pages/Alert";
+import WriteDiary from "../pages/WriteDiary";
 import Signup from "../pages/Signup";
 
 const router = createBrowserRouter([
@@ -27,8 +27,8 @@ const router = createBrowserRouter([
     element: <Mypage />,
   },
   {
-    path: "/alert",
-    element: <Alert />,
+    path: "/diary",
+    element: <WriteDiary />,
   },
 ]);
 export default router;
