@@ -1,6 +1,14 @@
-import React from "react";
+import DiaryCell from "./DiaryCell";
 
 const DiaryContent = () => {
+  const cells = [
+    { x: 26, y: 26, text: "안" },
+    { x: 78, y: 26, text: "녕" },
+    { x: 130, y: 26, text: "하" },
+    { x: 182, y: 26, text: "세" },
+    { x: 234, y: 26, text: "요" },
+  ];
+
   return (
     <div className="w-full h-auto flex justify-center items-center bg-[#f2f4f7] py-8">
       <div className="w-[1204px] h-[878px] relative bg-[#f2f4f7]">
@@ -142,7 +150,7 @@ const DiaryContent = () => {
             </div>
             <div className="self-stretch flex-grow-0 flex-shrink-0 h-[316px]" />
             <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[520px] relative gap-2.5 px-5 py-3 border border-[#e2e2e2]">
-              <p className="flex-grow-0 flex-shrink-0 text-lg text-left text-[#a0a0a0]">
+              <p className="flex-grow-0 flex-shrink-0 text-lg text-left text-[#a0a0a0] font-ownglyph">
                 제목을 입력해 주세요
               </p>
             </div>
@@ -170,6 +178,11 @@ const DiaryContent = () => {
               <path d="M520 156L0 156" stroke="#E2E2E2" />
               <path d="M520 208L0 208" stroke="#E2E2E2" />
               <path d="M520 260L0 260" stroke="#E2E2E2" />
+
+              {/* DiaryCell 컴포넌트를 사용해 각 격자에 문자 배치 */}
+              {cells.map((cell, index) => (
+                <DiaryCell key={index} x={cell.x} y={cell.y} text={cell.text} />
+              ))}
             </svg>
           </div>
         </div>
