@@ -19,8 +19,8 @@ const profile: Profile = {
 };
 
 const alerts = [
-  { id: 1, title: '24/7/10 공지사항입니다.', message: '내용...', date: '2024-07-10' },
-  { id: 2, title: '24/8/20 공지사항입니다.', message: '내용...', date: '2024-08-20' },
+  { id: 1, title: '24/7/10 공지사항입니다.', message: '업데이트 내용입니다.', date: '2024-07-10' },
+  { id: 2, title: '24/8/20 공지사항입니다.', message: '업데이트 내용입니다.', date: '2024-08-20' },
 ];
 
 
