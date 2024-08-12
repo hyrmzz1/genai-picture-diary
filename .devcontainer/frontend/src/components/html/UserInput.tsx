@@ -9,10 +9,12 @@ interface UserInputProps {
   type: string;
   value: string;
   name: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onClear?: () => void;
   children?: ReactNode;
   message?: string;
+  disabled?: boolean;
+  variant?: string; // 인풋 스타일 (bgcolor 유무)
 }
 
 const UserInput = ({
@@ -25,6 +27,8 @@ const UserInput = ({
   onClear,
   children,
   message,
+  disabled = false,
+  variant,
 }: UserInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -44,6 +48,8 @@ const UserInput = ({
     console.log(showPassword);
   };
 
+  const variantClass = variant === "nonBgcolor" ? "" : "bg-gray50";
+
   return (
     <>
       <label className="block mb-[24px] text-[14px]">
@@ -52,7 +58,7 @@ const UserInput = ({
           {/* UserBtn을 label과 input 사이에 배치하기 위함 */}
           {children}
           <input
-            className="appearance-none bg-gray50 border border-gray400 focus:bg-white focus:border-blue focus:outline-none rounded-md w-full py-[20px] px-[16px] text-text_default mt-2"
+            className={`appearance-none border border-gray400 focus:bg-white focus:border-blue focus:outline-none rounded-md w-full py-[20px] px-[16px] text-text_default mt-2 ${variantClass}`}
             type={showPassword ? "text" : type}
             placeholder={placeholder}
             value={value} // 전송할 입력값 지정
@@ -60,6 +66,7 @@ const UserInput = ({
             onChange={onChange}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
+            disabled={disabled}
           />
           {/* 로그인 페이지의 아이디 input에만 노출 */}
           {name === "userId" && isFocused && (
