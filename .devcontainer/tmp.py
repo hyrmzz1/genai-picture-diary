@@ -6,9 +6,11 @@ import time
 # 1. json data -> 영어로 번역
 def translate_data(data):
     print('번역 시작')
-    data = json.loads(data)
-    translated_data = GoogleTranslator(src='ko', dest='en').translate(data['content'])
-    translated_data += ', disney, without any colors, only-line'
+    # data = json.loads(data)
+    # translated_data = GoogleTranslator(src='ko', dest='en').translate(data['content'])
+    translated_data = GoogleTranslator(src='ko', dest='en').translate(data)
+    # translated_data += ', outline drawing, coloring book style, black and white, no fill, only lines'
+    translated_data += ', for kids, cute, playful, simple, fun, minimal facial details'
     print(f'번역 성공')
     print(f'입력: {data}')
     print(f'출력: {translated_data}')
@@ -31,10 +33,10 @@ def t2i(prompt, negative_prompt):
             "prompt": prompt,   # 필수 -> 이미지 묘사 제시어 = 영어(max_len = 2048)
             "negative_prompt": negative_prompt, # 선택 -> 부정 제시어 = 영어(max_len = 2048)
             "height": 1024,     # 필수 -> 2.1 = 8배수(768~1280, 1024권장)
-            "width": 1024       # 필수 -> 2.0 = 8배수(384~640, 512권장)
+            "width": 1024,       # 필수 -> 2.0 = 8배수(384~640, 512권장)
             # image_format -> webp(기본), jpeg, png
             # image_quality -> 저장 품질(1~100, 70(기본))
-            # samples -> 생성 개수(1~8, 1(기본))
+            "samples": 4, # samples -> 생성 개수(1~8, 1(기본))
             # return_type -> base64_string(Base64 인코딩), url(기본값)
         },
         headers = {
@@ -59,15 +61,17 @@ def create_image_process(data):
     print(f'프로세스 걸린 시간: {elapsed_time:.2f}초')
     return image_response
 
-data = {
-    'content': '가족, 축구, 경기장, 일요일'
-}
-data = json.dumps(data, ensure_ascii=False)
+data = input('일기를 입력하세요: ')
+# data = {
+#     'content': '가족, 축구, 경기장, 일요일'
+# }
+# data = json.dumps(data, ensure_ascii=False)
 image_response = create_image_process(data)
 
 # 응답의 첫 번째 이미지 생성 결과 출력하기
 # return_type 파라미터 값에 따라 이미지 파일을 Base64 인코딩한 값, 
 # 또는 이미지 파일 URL 제공
 # 이미지 파일 URL은 응답 시각으로부터 10분간 유효
-image_url = image_response.get("images")[0].get("image")
-print(f'이미지 url: {image_url}')
+for i, image in enumerate(image_response.get('images')):
+    image_url = image.get("image")
+    print(f'{i}번째 이미지 url: {image_url}')
