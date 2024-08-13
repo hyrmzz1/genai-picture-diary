@@ -1,5 +1,3 @@
-import React from "react";
-
 type DiaryCellProps = {
   x: number;
   y: number;

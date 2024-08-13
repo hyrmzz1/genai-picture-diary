@@ -2,7 +2,7 @@ import img from "../assets/image 13.svg";
 
 const DiarySidebar = () => {
   return (
-    <aside className="w-[236px] h-screen bg-white border-r border-[#e2e2e2]">
+    <aside className="w-[236px] bg-white border-r border-[#e2e2e2]">
       <div className="flex flex-col items-center mt-10 space-y-10">
         {/* 프로필 영역 */}
         <div className="flex flex-col items-center space-y-5">
