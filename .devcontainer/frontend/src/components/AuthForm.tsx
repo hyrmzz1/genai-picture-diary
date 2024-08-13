@@ -20,7 +20,7 @@ const AuthForm = ({
   userId,
   password,
   confirmPassword,
-  // errors,
+  errors,
   updateFields,
 }: AuthFormProps) => {
   return (
@@ -33,9 +33,9 @@ const AuthForm = ({
             type="text"
             value={userId}
             name="userId"
-            // error={errors.userId}
+            error={errors.userId}
             onChange={(e) => updateFields({ userId: e.target.value })}
-            message="아이디는 5~32자로 설정해주세요"
+            message="아이디는 5~32자로 설정해주세요."
           />
         </div>
 
@@ -46,9 +46,9 @@ const AuthForm = ({
             type="password"
             value={password}
             name="password"
-            // error={errors.password}
+            error={errors.password}
             onChange={(e) => updateFields({ password: e.target.value })}
-            message="비밀번호는 8자리 이상으로 설정해주세요"
+            message="비밀번호는 8자리 이상으로 설정해주세요."
           />
         </div>
 
@@ -59,7 +59,7 @@ const AuthForm = ({
             type="password"
             value={confirmPassword}
             name="confirmPassword"
-            // error={errors.confirmPassword}
+            error={errors.confirmPassword}
             onChange={(e) => updateFields({ confirmPassword: e.target.value })}
           />
         </div>

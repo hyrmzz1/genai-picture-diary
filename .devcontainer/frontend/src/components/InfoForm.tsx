@@ -25,7 +25,7 @@ const InfoForm = ({
   userPhone,
   userEmail,
   certNum,
-  // errors,
+  errors,
   updateFields,
 }: InfoFormProps) => {
   const checkBoxData = [
@@ -43,7 +43,7 @@ const InfoForm = ({
           type="text"
           value={userName}
           name="userName"
-          // error={errors.userName}
+          error={errors.userName}
           onChange={(e) => updateFields({ userName: e.target.value })}
         />
         <UserInput
@@ -52,7 +52,7 @@ const InfoForm = ({
           type="number"
           value={userPhone}
           name="userPhone"
-          // error={errors.userPhone}
+          error={errors.userPhone}
           onChange={(e) => updateFields({ userPhone: e.target.value })}
         />
         <UserInput
@@ -61,7 +61,7 @@ const InfoForm = ({
           type="email"
           value={userEmail}
           name="userEmail"
-          // error={errors.userEmail}
+          error={errors.userEmail}
           onChange={(e) => updateFields({ userEmail: e.target.value })}
         />
         <div className="h-[24px] border-t border-border_disabled"></div>
@@ -71,7 +71,7 @@ const InfoForm = ({
           type="number"
           value={certNum}
           name="certNum"
-          // error={errors.certNum}
+          error={errors.certNum}
           onChange={(e) => updateFields({ certNum: e.target.value })}
         >
           <UserBtn

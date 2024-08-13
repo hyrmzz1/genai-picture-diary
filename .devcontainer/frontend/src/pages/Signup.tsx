@@ -48,43 +48,51 @@ const Signup = () => {
     setData((prev) => ({ ...prev, ...fields }));
   }
 
-  // 유효성 검사 - 로직 보충 예정
   function validateFields(): boolean {
     let valid = true;
     const newErrors: ErrorData = {};
 
-    if (!data.userName.trim()) {
-      newErrors.userName = "이름을 입력해 주세요.";
-      valid = false;
-    }
-    if (!data.userPhone.trim()) {
-      newErrors.userPhone = "휴대전화번호를 입력해 주세요.";
-      valid = false;
-    }
-    if (data.userEmail && !/^\S+@\S+\.\S+$/.test(data.userEmail)) {
-      newErrors.userEmail = "유효한 이메일 주소를 입력해 주세요.";
-      valid = false;
-    }
-    if (!data.certNum.trim()) {
-      newErrors.certNum = "인증번호를 입력해 주세요.";
-      valid = false;
-    }
-    if (!data.userId.trim()) {
-      newErrors.userId = "아이디를 입력해 주세요.";
-      valid = false;
-    }
-    if (!data.password.trim()) {
-      newErrors.password = "비밀번호를 입력해 주세요.";
-      valid = false;
-    }
-    if (data.password !== data.confirmPassword) {
-      newErrors.confirmPassword = "비밀번호가 일치하지 않습니다.";
-      valid = false;
+    if (isFirstStep) {
+      if (!data.userName.trim()) {
+        newErrors.userName = "이름을 입력해 주세요.";
+        valid = false;
+      }
+      if (!data.userPhone.trim()) {
+        newErrors.userPhone = "휴대전화번호를 입력해 주세요.";
+        valid = false;
+      }
+      if (data.userEmail && !/^\S+@\S+\.\S+$/.test(data.userEmail)) {
+        newErrors.userEmail = "유효한 이메일 주소를 입력해 주세요.";
+        valid = false;
+      }
+      if (!data.certNum.trim()) {
+        newErrors.certNum = "인증번호를 입력해 주세요.";
+        valid = false;
+      }
+      // TODO) 체크박스 유효성 검사 로직 추가
+    } else if (!isLastStep) {
+      if (!data.userId.trim()) {
+        newErrors.userId = "아이디를 입력해 주세요.";
+        valid = false;
+      } else if (data.userId.length < 5 || data.userId.length > 32) {
+        newErrors.userId = "아이디는 5~32자로 설정해주세요.";
+        valid = false;
+      }
+      if (!data.password.trim()) {
+        newErrors.password = "비밀번호를 입력해 주세요.";
+        valid = false;
+      } else if (data.password.length < 8) {
+        newErrors.password = "비밀번호는 8자리 이상으로 설정해주세요.";
+        valid = false;
+      }
+      if (data.password !== data.confirmPassword) {
+        newErrors.confirmPassword = "비밀번호가 일치하지 않습니다.";
+        valid = false;
+      }
     }
 
     setErrors(newErrors);
     return valid;
-    // return Object.keys(newErrors).length === 0;
   }
 
   const { step, isFirstStep, isLastStep, back, next } = useMultistepForm([
@@ -94,8 +102,9 @@ const Signup = () => {
       role={data.role}
       updateFields={updateFields}
       onSubmit={() => {
-        // TODO) 유효성검사 로직 완성 후 아래 코드 if (validateFields()) {} 안에 넣기
-        setIsSignupComplete(true); // 회원가입 완료
+        if (validateFields()) {
+          setIsSignupComplete(true);
+        }
       }}
     />,
   ]);
@@ -103,10 +112,11 @@ const Signup = () => {
   function onSubmit(e: FormEvent) {
     e.preventDefault();
 
-    if (!isLastStep) return next();
+    if (!isLastStep && validateFields()) return next();
 
-    // TODO) 유효성검사 로직 완성 후 아래 코드 if (validateFields()) {} 안에 넣기
-    setIsSignupComplete(true); // 회원가입 완료
+    if (validateFields()) {
+      setIsSignupComplete(true);
+    }
   }
 
   // 데이터 확인용
