@@ -12,7 +12,7 @@ def create_diary():
     data = request.get_json()
 
     # DiaryEntry 필드 추출 및 생성
-    diary_fields = ['user_id', 'group_id', 'title', 'entry_date', 'text_content', 'entry_type']
+    diary_fields = ['user_id', 'group_id', 'title', 'record_date', 'text_content', 'entry_type']
     new_diary = DiaryEntry(**{field: data[field] for field in diary_fields})
     new_diary.add_instance()
 
@@ -86,17 +86,17 @@ def update_diary(diary_id):
 
 # 사용자의 특정 일기를 조회
 @diary_view.route('/<int:user_id>', methods=['GET'])
-def get_diary_list(diary_id):
-    diary = DiaryEntry.get_instance(diary_id)
-    if not diary:
+def get_diary_list(user_id):
+    diaries = DiaryEntry.get_instances_list(user_id)
+    if not diaries:
         return jsonify({'message': 'Diary not found'}), 404
 
-    return jsonify({
-        'diary': diary.to_json()
-    }), 200
+    diary_list = [diary.to_json() for diary in diaries]
+
+    return jsonify(diary_list), 200
 
 # 사용자의 특정 학급의 일기를 조회
-@diary_view.route('/<int:user_id>/group-lists/<int:group_id>', methods=['GET'])
+@diary_view.route('/<int:user_id>/<int:group_id>', methods=['GET'])
 def get_group_diaries(user_id, group_id):
     diaries = DiaryEntry.query.filter_by(group_id=group_id, user_id=user_id).all()
     if not diaries:

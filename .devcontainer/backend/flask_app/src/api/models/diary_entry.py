@@ -17,7 +17,7 @@ class DiaryEntry(BaseModel):
     user_id = g_db.Column(g_db.Integer, g_db.ForeignKey('user.id'), nullable=False)
     group_id = g_db.Column(g_db.Integer, g_db.ForeignKey('user_group.id'), nullable=True)
     title = g_db.Column(g_db.String(255), nullable=True)
-    entry_date = g_db.Column(g_db.Date, nullable=False)
+    record_date = g_db.Column(g_db.Date, nullable=False)
     text_content = g_db.Column(g_db.Text, nullable=True)
     _entry_type = g_db.Column('entry_type', g_db.Enum(EntryType), nullable=False)
     date_updated = g_db.Column(g_db.DateTime, default=g_db.func.current_timestamp(), onupdate=g_db.func.current_timestamp())
@@ -71,16 +71,16 @@ class DiaryEntry(BaseModel):
     
 class DiaryEntryAdmin(AdminBase):
     # 1. 표시 할 열 설정
-    #column_list = ('entry_id', 'user_id', 'group_id', 'title', 'entry_date', 'entry_type', 'created_at', 'updated_at')
-    column_list = ('id', 'user_id', 'group_id', 'title', 'entry_date', '_entry_type', 'date_created', 'date_updated')
-    form_columns = ['user_id', 'group_id', 'title', 'entry_date', 'text_content']
+    #column_list = ('entry_id', 'user_id', 'group_id', 'title', 'record_date', 'entry_type', 'created_at', 'updated_at')
+    column_list = ('id', 'user_id', 'group_id', 'title', 'record_date', '_entry_type', 'date_created', 'date_updated')
+    form_columns = ['user_id', 'group_id', 'title', 'record_date', 'text_content']
     column_searchable_list = ['title', 'text_content']
-    column_filters = ['entry_date', 'date_created', 'date_updated']
+    column_filters = ['record_date', 'date_created', 'date_updated']
     form_type = {
         'user_id': StringField('사용자 ID', validators=[DataRequired()]),
         'group_id': StringField('그룹 ID'),
         'title': StringField('제목', validators=[DataRequired()]),
-        'entry_date': StringField('일기 날짜', validators=[DataRequired()]),
+        'record_date': StringField('일기 날짜', validators=[DataRequired()]),
         'text_content': StringField('내용'),
         'entry_type':SelectField('일기 구분', choices=[('personal', '개인'), ('group', '그룹')], validators=[DataRequired()], widget=Select2Widget())
     }
