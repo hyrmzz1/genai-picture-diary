@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import useMultistepForm from "../components/useMultistepForm";
 import InfoForm from "../components/InfoForm";
 import AuthForm from "../components/AuthForm";
@@ -90,17 +90,32 @@ const Signup = () => {
   const { step, isFirstStep, isLastStep, back, next } = useMultistepForm([
     <InfoForm {...data} errors={errors} updateFields={updateFields} />,
     <AuthForm {...data} errors={errors} updateFields={updateFields} />,
-    <RoleForm {...data} updateFields={updateFields} />,
+    <RoleForm
+      role={data.role}
+      updateFields={updateFields}
+      onSubmit={() => {
+        // TODO) 유효성검사 로직 완성 후 아래 코드 if (validateFields()) {} 안에 넣기
+        setIsSignupComplete(true); // 회원가입 완료
+      }}
+    />,
   ]);
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
 
     if (!isLastStep) return next();
-    if (validateFields()) {
-      setIsSignupComplete(true); // 회원가입 완료
-    }
+
+    // TODO) 유효성검사 로직 완성 후 아래 코드 if (validateFields()) {} 안에 넣기
+    setIsSignupComplete(true); // 회원가입 완료
   }
+
+  // 데이터 확인용
+  useEffect(() => {
+    if (isSignupComplete) {
+      console.log("Signup complete:", isSignupComplete); // 상태가 업데이트 된 후 출력
+      console.log(data);
+    }
+  }, [isSignupComplete]);
 
   if (isSignupComplete) {
     return <SignupComplete />;
@@ -112,31 +127,35 @@ const Signup = () => {
         {step}
         <div className="flex justify-center">
           <div className="w-[480px]">
-            {isFirstStep ? (
-              <UserBtn
-                text="다음"
-                disabled={false}
-                variant="main"
-                type="submit"
-                className="w-full"
-              />
-            ) : (
-              <div className="flex justify-between">
+            {
+              isFirstStep && !isLastStep ? (
+                // InfoForm에서는 '다음' 버튼 렌더링
                 <UserBtn
-                  text="이전"
-                  onClick={back}
-                  disabled={false}
-                  className="w-[88px] bg-border_disabled font-bold"
-                />
-                <UserBtn
-                  text={isLastStep ? "가입 완료" : "다음"}
-                  type="submit"
+                  text="다음"
                   disabled={false}
                   variant="main"
-                  className="w-[372px]"
+                  type="submit"
+                  className="w-full"
                 />
-              </div>
-            )}
+              ) : !isFirstStep && !isLastStep ? (
+                // AuthForm에서는 '이전', '다음' 버튼 렌더링
+                <div className="flex justify-between">
+                  <UserBtn
+                    text="이전"
+                    onClick={back}
+                    disabled={false}
+                    className="w-[88px] bg-border_disabled font-bold"
+                  />
+                  <UserBtn
+                    text="다음"
+                    type="submit"
+                    disabled={false}
+                    variant="main"
+                    className="w-[372px]"
+                  />
+                </div>
+              ) : null // RoleForm에서는 단계 관련 버튼 렌더링 X
+            }
           </div>
         </div>
       </form>
