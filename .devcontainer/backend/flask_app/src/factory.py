@@ -31,9 +31,9 @@ def create_app(config, mode):
     add_cli(app)
 
     # sqlalchemy 쿼리 로깅 확인용 
-    # import logging
-    # logging.basicConfig()
-    # logging.getLogger('sqlalchemy.engine').setLevel(logging.DEBUG)
+    import logging
+    logging.basicConfig()
+    logging.getLogger('sqlalchemy.engine').setLevel(logging.DEBUG)
 
     return app
 
@@ -48,6 +48,12 @@ def add_admin_view(app):
 def add_blueprint(app):
     from src.views.alert import alert_view
     app.register_blueprint(alert_view)
+    from src.views.diary import diary_view
+    app.register_blueprint(diary_view)
+    from src.views.group import group_view
+    app.register_blueprint(group_view)
+    from src.views.user import user_view
+    app.register_blueprint(user_view)
 
     @app.route('/')
     def home():

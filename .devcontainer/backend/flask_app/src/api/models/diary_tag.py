@@ -14,8 +14,10 @@ class DiaryTag(BaseModel):
         self.tag_name = tag_name
 
     def to_json(self):
-        data = {key: value for key, value in self.__dict__.items()}
-        return jsonify(data)
+        return {
+            'id': self.id,
+            'tag_name': self.tag_name
+        }
     
     def __repr__(self):
         return f"<DiaryTag {self.tag_id} - {self.tag_name}>"

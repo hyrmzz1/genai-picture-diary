@@ -125,6 +125,17 @@
       "post": {
         "tags": ["Diary"],
         "summary": "Create a new diary image",
+        "requestBody": {
+          "description": "Diary Image Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/mkImg"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "Created",
@@ -149,7 +160,7 @@
             "required": true,
             "description": "User ID",
             "schema": {
-              "type": "integer"
+              "type": "string"
             }
           }
         ],
@@ -177,7 +188,7 @@
             "required": true,
             "description": "User ID",
             "schema": {
-              "type": "integer"
+              "type": "string"
             }
           },
           {
@@ -186,7 +197,7 @@
             "required": true,
             "description": "Group ID",
             "schema": {
-              "type": "integer"
+              "type": "string"
             }
           }
         ],
@@ -214,7 +225,7 @@
             "required": true,
             "description": "User ID",
             "schema": {
-              "type": "integer"
+              "type": "string"
             }
           }
         ],
@@ -244,15 +255,16 @@
       "diary": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer"
-          },
           "user_id": {
-            "type": "integer",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true,
             "description": "User ID associated with the diary"
           },
           "group_id": {
-            "type": "integer",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true,
             "description": "Group ID associated with the diary, can be null"
           },
           "title": {
@@ -279,22 +291,13 @@
           "images": {
             "type": "array",
             "items": {
-              "type": "string",
-              "description": "URLs of associated images"
+              "$ref": "#/components/schemas/image"
             }
           },
           "tags": {
             "type": "array",
             "items": {
-              "type": "string",
-              "description": "Tags associated with the diary entry"
-            }
-          },
-          "comments": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "description": "Comments on the diary entry"
+              "$ref": "#/components/schemas/tag"
             }
           }
         }
@@ -308,21 +311,46 @@
       "groupList": {
         "type": "array",
         "items": {
-          "type": "object",
-          "properties": {
-            "group_id": {
-              "type": "integer"
-            },
-            "group_name": {
-              "type": "string"
-            }
-          }
+          "$ref": "#/components/schemas/group"
         }
       },
       "image": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer"
+          },
           "image_url": {
+            "type": "string"
+          }
+        }
+      },
+      "mkImg": {
+        "type": "object",
+        "properties": {
+          "option": {
+            "type": "string"
+          }
+        }
+      },
+      "tag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "tag_name": {
+            "type": "string"
+          }
+        }
+      },
+      "group": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "group_name": {
             "type": "string"
           }
         }
