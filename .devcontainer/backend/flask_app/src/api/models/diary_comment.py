@@ -9,7 +9,7 @@ class DiaryComment(BaseModel):
                   
     date_updated = g_db.Column(g_db.DateTime, default=g_db.func.current_timestamp(), onupdate=g_db.func.current_timestamp())
     
-    entry = g_db.relationship('DiaryEntry', back_populates='comments')  
+    #entry = g_db.relationship('DiaryEntry', back_populates='comments')  
 
     def __init__(self, entry_id, user_id, comment_text):
         self.entry_id = entry_id

@@ -1,0 +1,360 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "diarytimecapsule",
+    "version": "1.0.0",
+    "title": "diarytimecapsule",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Diary",
+      "description": "Operations related to diary entries"
+    },
+    {
+      "name": "Group",
+      "description": "Operations related to user groups"
+    }
+  ],
+  "paths": {
+    "/diary": {
+      "post": {
+        "tags": ["Diary"],
+        "summary": "Create a new diary entry",
+        "requestBody": {
+          "description": "Diary Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/diary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      }
+    },
+    "/diary/{diary_id}": {
+      "get": {
+        "tags": ["Diary"],
+        "summary": "Get details of an existing diary entry",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "diary_id",
+            "required": true,
+            "description": "Diary ID",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/diary"
+            }
+          },
+          "404": {
+            "description": "Failed. Diary not found."
+          }
+        }
+      },
+      "post": {
+        "tags": ["Diary"],
+        "summary": "Edit an existing diary entry",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "diary_id",
+            "required": true,
+            "description": "Diary ID",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Diary Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/diary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          },
+          "404": {
+            "description": "Failed. Diary not found."
+          }
+        }
+      }
+    },
+    "/diary/image": {
+      "post": {
+        "tags": ["Diary"],
+        "summary": "Create a new diary image",
+        "requestBody": {
+          "description": "Diary Image Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/mkImg"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/components/schemas/image"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          }
+        }
+      }
+    },
+    "/diary/{user_id}": {
+      "get": {
+        "tags": ["Diary"],
+        "summary": "Get diary entries for a user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/diaryList"
+            }
+          },
+          "404": {
+            "description": "Failed. User not found."
+          }
+        }
+      }
+    },
+    "/diary/{user_id}/{group_id}": {
+      "get": {
+        "tags": ["Diary"],
+        "summary": "Get diary entries for a specific group",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "description": "Group ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/diaryList"
+            }
+          },
+          "404": {
+            "description": "Failed. Group or User not found."
+          }
+        }
+      }
+    },
+    "/group/{user_id}": {
+      "get": {
+        "tags": ["Group"],
+        "summary": "Get group lists for a user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/groupList"
+            }
+          },
+          "404": {
+            "description": "Failed. User not found."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "id": {
+        "properties": {
+          "id": {
+            "type": "integer"
+          }
+        }
+      },
+      "diary": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true,
+            "description": "User ID associated with the diary"
+          },
+          "group_id": {
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true,
+            "description": "Group ID associated with the diary, can be null"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true,
+            "description": "Title of the diary entry"
+          },
+          "record_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date of the diary entry"
+          },
+          "text_content": {
+            "type": "string",
+            "nullable": true,
+            "description": "Text content of the diary entry"
+          },
+          "entry_type": {
+            "type": "string",
+            "enum": ["personal", "group"],
+            "description": "Type of the diary entry"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/image"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/tag"
+            }
+          }
+        }
+      },
+      "diaryList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/diary"
+        }
+      },
+      "groupList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/group"
+        }
+      },
+      "image": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "image_url": {
+            "type": "string"
+          }
+        }
+      },
+      "mkImg": {
+        "type": "object",
+        "properties": {
+          "option": {
+            "type": "string"
+          }
+        }
+      },
+      "tag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "tag_name": {
+            "type": "string"
+          }
+        }
+      },
+      "group": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "group_name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

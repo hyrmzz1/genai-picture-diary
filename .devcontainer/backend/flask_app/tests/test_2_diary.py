@@ -20,7 +20,7 @@ class DiaryTest(TestBase):
             user_id=1,
             group_id=1,
             title='Test Entry 1',
-            entry_date=date.today(),
+            record_date=date.today(),
             text_content='This is a test diary entry.',
             entry_type='personal'
         )
@@ -28,7 +28,7 @@ class DiaryTest(TestBase):
             user_id=1,
             group_id=1,
             title='Test Entry 2',
-            entry_date=date.today(),
+            record_date=date.today(),
             text_content='This is another test diary entry.',
             entry_type='group'
         )
@@ -180,7 +180,7 @@ class DiaryTest(TestBase):
             'user_id': 1,
             'group_id': 1,
             'title': 'Test Entry 3',
-            'entry_date': date.today(),
+            'record_date': date.today(),
             'text_content': 'This is a test diary entry with image and tag.',
             'entry_type': 'personal'
         }

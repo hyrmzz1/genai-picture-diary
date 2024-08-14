@@ -14,9 +14,11 @@ class DiaryImage(BaseModel):
         self.image_url = image_url
 
     def to_json(self):
-        data = {key: value for key, value in self.__dict__.items()}
-        return jsonify(data)
-
+        return {
+            'id': self.id,
+            'image_url': self.image_url
+        }
+    
     def __repr__(self):
         return f"<DiaryImage {self.image_id} - Entry {self.entry_id}>"
 
@@ -27,6 +29,7 @@ class DiaryImage(BaseModel):
     # read : base의 get_instance 함수 사용
     
     # 이미지 업데이트 메서드
+    # 기존 이미지는 삭제하고 새로 생성
     def update_image(self, data):
         for key, value in data.items():
             if key in self.__table__.columns:

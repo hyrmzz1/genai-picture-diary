@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_swagger_ui import get_swaggerui_blueprint
 from src.api.models.user import User
 from src.api.models import db_migrate_setup
 from src.api.models import get_all_admin_models
@@ -30,9 +31,9 @@ def create_app(config, mode):
     add_cli(app)
 
     # sqlalchemy 쿼리 로깅 확인용 
-    # import logging
-    # logging.basicConfig()
-    # logging.getLogger('sqlalchemy.engine').setLevel(logging.DEBUG)
+    import logging
+    logging.basicConfig()
+    logging.getLogger('sqlalchemy.engine').setLevel(logging.DEBUG)
 
     return app
 
@@ -47,6 +48,12 @@ def add_admin_view(app):
 def add_blueprint(app):
     from src.views.alert import alert_view
     app.register_blueprint(alert_view)
+    from src.views.diary import diary_view
+    app.register_blueprint(diary_view)
+    from src.views.group import group_view
+    app.register_blueprint(group_view)
+    from src.views.user import user_view
+    app.register_blueprint(user_view)
 
     @app.route('/')
     def home():
@@ -56,11 +63,26 @@ def add_blueprint(app):
         user_groups = UserGroup.get_all()
         return render_template('home.html', users=users, user_groups=user_groups)
     
+    ### swagger specific ###
+    SWAGGER_URL = '/swagger'
+    API_URL = '/static/swagger.json'
+    SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+        SWAGGER_URL,
+        API_URL,
+        config={
+            'app_name': "Seans-Python-Flask-REST-Boilerplate"
+        }
+    )
+    app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
+    
     pass
     # from api.views import views
     # app.register_blueprint(views, name='views')
     # from api.auth import auth
     # app.register_blueprint(auth, name='auth', url_prefix='/auth')
+
+
+
 
 def set_login_manager(app):
     from flask_login import LoginManager

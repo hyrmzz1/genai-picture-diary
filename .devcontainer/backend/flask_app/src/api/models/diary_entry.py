@@ -3,6 +3,8 @@ from flask_wtf import FlaskForm
 from flask_admin.form import Select2Widget
 from wtforms import SelectField, StringField
 from wtforms.validators import DataRequired
+from datetime import datetime, date
+
 import enum
 
 from src.api.models.base import AdminBase, BaseModel, g_db
@@ -17,21 +19,30 @@ class DiaryEntry(BaseModel):
     user_id = g_db.Column(g_db.Integer, g_db.ForeignKey('user.id'), nullable=False)
     group_id = g_db.Column(g_db.Integer, g_db.ForeignKey('user_group.id'), nullable=True)
     title = g_db.Column(g_db.String(255), nullable=True)
-    entry_date = g_db.Column(g_db.Date, nullable=False)
+    _record_date = g_db.Column(g_db.Date, nullable=False)
     text_content = g_db.Column(g_db.Text, nullable=True)
     _entry_type = g_db.Column('entry_type', g_db.Enum(EntryType), nullable=False)
     date_updated = g_db.Column(g_db.DateTime, default=g_db.func.current_timestamp(), onupdate=g_db.func.current_timestamp())
     
     images = g_db.relationship('DiaryImage', back_populates='entry', cascade='delete, delete-orphan', lazy='dynamic')
     tags = g_db.relationship('DiaryTag', back_populates='entry', cascade='delete, delete-orphan', lazy='dynamic')
-    comments = g_db.relationship('DiaryComment', back_populates='entry', cascade='delete, delete-orphan', lazy='dynamic')
+    #comments = g_db.relationship('DiaryComment', back_populates='entry', cascade='delete, delete-orphan', lazy='dynamic')
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def to_json(self):
-        data = {key: value for key, value in self.__dict__.items()}
-        return jsonify(data)
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'group_id': self.group_id,
+            'title': self.title,
+            'record_date': self.record_date.isoformat() if self.record_date else None,
+            'text_content': self.text_content,
+            'entry_type': self.entry_type,
+            'images': [image.to_json() for image in self.images],
+            'tags': [tag.to_json() for tag in self.tags]
+        }
     
     def __repr__(self):
         return f"<DiaryEntry {self.entry_id} - {self.title}>"
@@ -39,6 +50,19 @@ class DiaryEntry(BaseModel):
     def __str__(self):
         return self.title
     
+    @property
+    def record_date(self):
+        return self._record_date
+    
+    @record_date.setter
+    def record_date(self, value):
+        if isinstance(value, str):
+            self._record_date = datetime.strptime(value, '%Y-%m-%d').date()
+        elif isinstance(value, date):
+            self._record_date = value
+        else:
+            raise TypeError("record_date must be a string in 'YYYY-MM-DD' format or a date object")
+        
     @property
     def entry_type(self):
         return self._entry_type.value
@@ -71,16 +95,16 @@ class DiaryEntry(BaseModel):
     
 class DiaryEntryAdmin(AdminBase):
     # 1. 표시 할 열 설정
-    #column_list = ('entry_id', 'user_id', 'group_id', 'title', 'entry_date', 'entry_type', 'created_at', 'updated_at')
-    column_list = ('id', 'user_id', 'group_id', 'title', 'entry_date', '_entry_type', 'date_created', 'date_updated')
-    form_columns = ['user_id', 'group_id', 'title', 'entry_date', 'text_content']
+    #column_list = ('entry_id', 'user_id', 'group_id', 'title', 'record_date', 'entry_type', 'created_at', 'updated_at')
+    column_list = ('id', 'user_id', 'group_id', 'title', 'record_date', 'entry_type', 'date_created', 'date_updated')
+    form_columns = ['user_id', 'group_id', 'title', 'text_content']
     column_searchable_list = ['title', 'text_content']
-    column_filters = ['entry_date', 'date_created', 'date_updated']
+    column_filters = ['date_created', 'date_updated']
     form_type = {
         'user_id': StringField('사용자 ID', validators=[DataRequired()]),
         'group_id': StringField('그룹 ID'),
         'title': StringField('제목', validators=[DataRequired()]),
-        'entry_date': StringField('일기 날짜', validators=[DataRequired()]),
+        'record_date': StringField('일기 날짜', validators=[DataRequired()]),
         'text_content': StringField('내용'),
         'entry_type':SelectField('일기 구분', choices=[('personal', '개인'), ('group', '그룹')], validators=[DataRequired()], widget=Select2Widget())
     }
