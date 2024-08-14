@@ -5,6 +5,7 @@ import AuthForm from "../components/AuthForm";
 import RoleForm from "../components/RoleForm";
 import UserBtn from "../components/html/UserBtn";
 import SignupComplete from "../components/SignupComplete";
+import { UserType } from "../type/UserType";
 
 // TODO) 동의 체크 박스 검사
 type FormData = {
@@ -15,7 +16,7 @@ type FormData = {
   userId: string;
   password: string;
   confirmPassword: string;
-  role: string;
+  userType: UserType;
 };
 
 type ErrorData = {
@@ -36,7 +37,7 @@ const INITIAL_DATA: FormData = {
   userId: "",
   password: "",
   confirmPassword: "",
-  role: "",
+  userType: UserType.Individual,
 };
 
 const Signup = () => {
@@ -105,7 +106,7 @@ const Signup = () => {
     <InfoForm {...data} errors={errors} updateFields={updateFields} />,
     <AuthForm {...data} errors={errors} updateFields={updateFields} />,
     <RoleForm
-      role={data.role}
+      userType={data.userType}
       updateFields={updateFields}
       onSubmit={() => {
         if (validateFields()) {

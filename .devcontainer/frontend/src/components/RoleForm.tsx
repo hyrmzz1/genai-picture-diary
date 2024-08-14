@@ -1,6 +1,7 @@
 import FormWrapper from "../components/FormWrapper";
 import teacherIcon from "../assets/teacherIcon.svg";
 import individualIcon from "../assets/individualIcon.svg";
+import { UserType } from "../type/UserType";
 
 type RoldCardProps = {
   icon: string; // 역할 아이콘
@@ -24,14 +25,14 @@ const RoleCard = ({ icon, text, onClick }: RoldCardProps) => (
 );
 
 type RoleFormProps = {
-  role: string;
-  updateFields: (fields: Partial<{ role: string }>) => void;
+  userType: UserType;
+  updateFields: (fields: Partial<{ userType: UserType }>) => void;
   onSubmit: () => void; // 폼 제출 함수
 };
 
 const RoleForm = ({ updateFields, onSubmit }: RoleFormProps) => {
-  const handleRoleClick = (role: string) => {
-    updateFields({ role });
+  const handleRoleClick = (role: UserType) => {
+    updateFields({ userType: role });
     onSubmit();
   };
 
@@ -46,12 +47,12 @@ const RoleForm = ({ updateFields, onSubmit }: RoleFormProps) => {
           <RoleCard
             icon={teacherIcon}
             text="선생님"
-            onClick={() => handleRoleClick("teacher")}
+            onClick={() => handleRoleClick(UserType.Teacher)}
           />
           <RoleCard
             icon={individualIcon}
             text="개인"
-            onClick={() => handleRoleClick("individual")}
+            onClick={() => handleRoleClick(UserType.Individual)}
           />
         </div>
       </div>
