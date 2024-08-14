@@ -1,34 +1,37 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DiaryTitleInput from "./DiaryTitleInput";
 import DiaryContentInput from "./DiaryContentInput";
 import DiarySelection from "./DiarySelection";
 import DiaryWeatherInfo from "./DiaryWeatherInfo";
 import DiaryLoad from "./DiaryLoad";
-import Modal from "./DiaryRedrawModal";
+import { generateImage, saveDiary } from "../stores/diaryStore";
 
 const DiaryContent = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const navigate = useNavigate();
 
   const handleCancel = () => {
     setIsLoading(false);
   };
 
-  const handleCardClick = () => {
-    setIsLoading(true); // 로딩 시작
-  };
-
-  const handleNewDrawingClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleConfirmNewDrawing = () => {
-    setIsModalOpen(false);
-    setIsLoading(true); // 새로 그리기 로직
+  const handleGenerateAndSave = async () => {
+    setIsLoading(true);
+    try {
+      const generatedImageUrl = await generateImage(`${title} - ${content}`);
+      setImageUrl(generatedImageUrl);
+      await saveDiary({ title, content, imageUrl: generatedImageUrl });
+      setIsLoading(false);
+      alert("일기가 성공적으로 저장되었습니다!");
+      navigate("/mypage");
+    } catch (error) {
+      setIsLoading(false);
+      console.error("일기 작성 중 오류가 발생했습니다:", error);
+      alert("일기 작성 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    }
   };
 
   return (
@@ -43,31 +46,31 @@ const DiaryContent = () => {
             {isLoading ? (
               <DiaryLoad onCancel={handleCancel} />
             ) : (
-              <DiarySelection onCardClick={handleCardClick} />
+              <DiarySelection onCardClick={handleGenerateAndSave} />
             )}
-            <DiaryTitleInput />
-            <DiaryContentInput />
+            <DiaryTitleInput value={title} onChange={setTitle} />
+            <DiaryContentInput value={content} onChange={setContent} />
           </div>
         </div>
         <div className="flex justify-start absolute right-8 top-6 gap-3">
           <div
-            className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-5 py-3 rounded-[20px] bg-white shadow border border-[#e2e2e2] cursor-pointer"
-            onClick={handleNewDrawingClick} // 클릭 이벤트 추가
+            className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-5 py-3 rounded-[20px] bg-white shadow border border-[#e2e2e2]"
+            onClick={handleGenerateAndSave}
           >
             <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0] font-ownglyph">
               새로그리기
             </p>
           </div>
-          <div className="flex justify-center items-center gap-2.5 px-6 py-3 rounded-[50px] bg-white shadow">
+          <div
+            className="flex justify-center items-center gap-2.5 px-6 py-3 rounded-[50px] bg-white shadow"
+            onClick={handleGenerateAndSave}
+          >
             <p className="text-[15px] text-[#bfbfbf] font-ownglyph">
               일기 작성 완료
             </p>
           </div>
         </div>
       </div>
-      {isModalOpen && (
-        <Modal onClose={handleCloseModal} onConfirm={handleConfirmNewDrawing} />
-      )}
     </div>
   );
 };
