@@ -57,18 +57,24 @@ const Signup = () => {
         newErrors.userName = "이름을 입력해 주세요.";
         valid = false;
       }
+
       if (!data.userPhone.trim()) {
         newErrors.userPhone = "휴대전화번호를 입력해 주세요.";
         valid = false;
       }
+
       if (data.userEmail && !/^\S+@\S+\.\S+$/.test(data.userEmail)) {
         newErrors.userEmail = "유효한 이메일 주소를 입력해 주세요.";
         valid = false;
       }
+
       if (!data.certNum.trim()) {
         newErrors.certNum = "인증번호를 입력해 주세요.";
         valid = false;
       }
+      // TODO) 발송한 인증 번호와 입력한 인증 번호 일치 여부 확인 로직 추가
+      // else if () {}
+
       // TODO) 체크박스 유효성 검사 로직 추가
     } else if (!isLastStep) {
       if (!data.userId.trim()) {

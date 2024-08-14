@@ -76,7 +76,7 @@ const InfoForm = ({
         >
           <UserBtn
             text="인증번호 전송"
-            onClick={() => {}}
+            onClick={() => {}} // TODO) 인증번호 발송, 모달 노출, 인증번호 입력 input에 타이머 추가
             disabled={false}
             className="w-full bg-Bg_deep"
           />
