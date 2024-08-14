@@ -96,9 +96,17 @@ const DiaryWeatherInfo = () => {
               onClick={() => handleWeatherSelect(weather.id)}
               className={`cursor-pointer w-6 h-6 rounded ${
                 selectedWeather === weather.id
-                  ? "stroke-black"
-                  : "stroke-current"
+                  ? "filter-black" // 실제 색상 필터링으로 대체해야 함
+                  : ""
               }`}
+              style={
+                selectedWeather === weather.id
+                  ? {
+                      filter:
+                        "invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%)",
+                    }
+                  : {}
+              }
             />
           ))}
         </div>

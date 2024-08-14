@@ -1,17 +1,32 @@
 import React, { useState, useRef } from "react";
 
 const DiaryContentInput = () => {
-  const [content, setContent] = useState<string[]>(Array(60).fill(""));
+  const placeholderText = "오늘 하루를 자유롭게 작성해 보세요";
+  const initialContent = placeholderText
+    .split("")
+    .concat(Array(60 - placeholderText.length).fill(""));
+
+  const [content, setContent] = useState<string[]>(initialContent);
+  const [isPlaceholderActive, setIsPlaceholderActive] = useState(true);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleChange = (index: number, value: string) => {
     const newContent = [...content];
     newContent[index] = value;
-
     setContent(newContent);
+  };
 
-    // 다음 칸으로 포커스를 이동합니다.
-    if (value.length === 1 && index < 99) {
+  const handleFocus = (index: number) => {
+    if (isPlaceholderActive) {
+      setContent(Array(60).fill("")); // placeholderText를 지웁니다.
+      setIsPlaceholderActive(false);
+    }
+    inputRefs.current[index]?.focus();
+  };
+
+  const handleCompositionEnd = (index: number) => {
+    // 한글 조합이 끝난 후에만 다음 칸으로 이동
+    if (index < 59) {
       inputRefs.current[index + 1]?.focus();
     }
   };
@@ -26,8 +41,11 @@ const DiaryContentInput = () => {
 
   const renderCells = () => {
     return content.map((_, index) => {
-      const x = 26 + (index % 10) * 52; // 각 열의 x 위치 (10개의 열로 가정)
-      const y = 26 + Math.floor(index / 10) * 52; // 각 행의 y 위치
+      const x = 26 + (index % 10) * 52;
+      const y = 26 + Math.floor(index / 10) * 52;
+      const isPlaceholder =
+        isPlaceholderActive && index < placeholderText.length;
+
       return (
         <foreignObject key={index} x={x - 20} y={y - 20} width={40} height={40}>
           <input
@@ -36,9 +54,12 @@ const DiaryContentInput = () => {
             value={content[index]}
             maxLength={1} // 한 글자만 입력 가능
             onChange={(e) => handleChange(index, e.target.value)}
+            onFocus={() => handleFocus(index)}
             onKeyDown={(e) => handleKeyDown(index, e)}
-            className="w-full h-full text-center bg-transparent border-none outline-none font-ownglyph text-[24px]"
-            style={{ color: "#232527" }}
+            onCompositionEnd={() => handleCompositionEnd(index)}
+            className={`w-full h-full text-center bg-transparent border-none outline-none font-ownglyph text-[24px] ${
+              isPlaceholder ? "text-[#a0a0a0]" : "text-[#232527]"
+            }`}
           />
         </foreignObject>
       );

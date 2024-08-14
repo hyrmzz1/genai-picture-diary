@@ -6,12 +6,14 @@ import DiarySelection from "./DiarySelection";
 import DiaryWeatherInfo from "./DiaryWeatherInfo";
 import DiaryLoad from "./DiaryLoad";
 import { generateImage, saveDiary } from "../stores/diaryStore";
+import DiaryRedrawModal from "./DiaryRedrawModal";
 
 const DiaryContent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
   const navigate = useNavigate();
 
   const handleCancel = () => {
@@ -34,6 +36,19 @@ const DiaryContent = () => {
     }
   };
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleConfirmRedraw = () => {
+    setIsModalOpen(false);
+    handleGenerateAndSave(); // 새로 그리기 로직 수행
+  };
+
   return (
     <div className="w-full h-auto flex justify-center items-center bg-[#f2f4f7] py-8">
       <div className="w-[1204px] h-[878px] relative bg-[#f2f4f7]">
@@ -46,7 +61,7 @@ const DiaryContent = () => {
             {isLoading ? (
               <DiaryLoad onCancel={handleCancel} />
             ) : (
-              <DiarySelection onCardClick={handleGenerateAndSave} />
+              <DiarySelection />
             )}
             <DiaryTitleInput value={title} onChange={setTitle} />
             <DiaryContentInput value={content} onChange={setContent} />
@@ -55,7 +70,7 @@ const DiaryContent = () => {
         <div className="flex justify-start absolute right-8 top-6 gap-3">
           <div
             className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2.5 px-5 py-3 rounded-[20px] bg-white shadow border border-[#e2e2e2]"
-            onClick={handleGenerateAndSave}
+            onClick={handleOpenModal} // 모달 열기
           >
             <p className="flex-grow-0 flex-shrink-0 text-[15px] text-left text-[#a0a0a0] font-ownglyph">
               새로그리기
@@ -70,6 +85,12 @@ const DiaryContent = () => {
             </p>
           </div>
         </div>
+        {isModalOpen && (
+          <DiaryRedrawModal
+            onClose={handleCloseModal}
+            onConfirm={handleConfirmRedraw}
+          />
+        )}
       </div>
     </div>
   );

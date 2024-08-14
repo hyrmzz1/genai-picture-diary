@@ -1,7 +1,14 @@
+import { useState } from "react";
 import img1 from "../assets/select_default.svg";
 import img2 from "../assets/select_gray.svg";
 
-const DiarySelection = ({ onCardClick }: { onCardClick: () => void }) => {
+const DiarySelection = () => {
+  const [isSelected, setIsSelected] = useState(false);
+
+  const handleCardClick = () => {
+    setIsSelected(true);
+  };
+
   return (
     <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-[316px] ">
       <div className="flex flex-col justify-start items-center gap-4">
@@ -10,12 +17,16 @@ const DiarySelection = ({ onCardClick }: { onCardClick: () => void }) => {
         </p>
         <div className="flex justify-center items-start gap-10">
           <div className="flex gap-[34.245px]">
-            <div className="flex flex-col justify-start items-center w-[164px] gap-5 px-3 pt-3 pb-6 rounded-xl bg-white border border-[#e2e2e2]">
+            <div
+              className={`flex flex-col justify-start items-center w-[164px] relative gap-5 px-3 pt-3 pb-6 rounded-xl cursor-pointer ${
+                isSelected
+                  ? "bg-[#fafafa] border-2 border-[#e2e2e2]"
+                  : "bg-white border border-[#e2e2e2]"
+              }`}
+              onClick={handleCardClick}
+            >
               <img src={img1} />
-              <div
-                className="flex flex-col justify-center items-center gap-1.5"
-                onClick={onCardClick}
-              >
+              <div className="flex flex-col justify-center items-center gap-1.5">
                 <p className="text-[15px] text-center text-black font-ownglyph">
                   AI 그림일기
                 </p>
@@ -24,12 +35,12 @@ const DiarySelection = ({ onCardClick }: { onCardClick: () => void }) => {
                 </p>
               </div>
             </div>
-            <div className="flex flex-col justify-start items-center w-[164px] gap-5 px-3 pt-3 pb-6 rounded-xl bg-white border border-[#e2e2e2]">
-              <img src={img2} />
-              <div
-                className="flex flex-col justify-center items-center gap-1.5"
-                onClick={onCardClick}
-              >
+            <div
+              className="flex flex-col justify-start items-center w-[164px] gap-5 px-3 pt-3 pb-6 rounded-xl bg-white border border-[#e2e2e2] cursor-not-allowed"
+              onClick={(e) => e.preventDefault()} // 컬러링 이벤트 막기
+            >
+              <img src={img2} className="pointer-events-none" />
+              <div className="flex flex-col justify-center items-center gap-1.5">
                 <p className="text-[15px] text-center text-black font-ownglyph">
                   AI 컬러링 일기
                 </p>
