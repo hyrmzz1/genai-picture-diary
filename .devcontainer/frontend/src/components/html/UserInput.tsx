@@ -13,6 +13,7 @@ interface UserInputProps {
   onClear?: () => void;
   children?: ReactNode;
   message?: string;
+  error?: string;
   disabled?: boolean;
   variant?: {
     bgless?: boolean; // true - 배경색 미적용, false - 배경색 적용
@@ -31,6 +32,7 @@ const UserInput = ({
   onClear,
   children,
   message,
+  error,
   disabled = false,
   variant = {},
   showCharacterCount = false,
@@ -59,6 +61,8 @@ const UserInput = ({
     ? "py-[16px] px-[14px]"
     : "py-[20px] px-[16px]";
 
+  const borderClass = error ? "border-text_error" : "border-gray400";
+
   return (
     <>
       <label className="block mb-[24px] text-[14px]">
@@ -67,7 +71,7 @@ const UserInput = ({
           {/* UserBtn을 label과 input 사이에 배치하기 위함 */}
           {children}
           <input
-            className={`appearance-none border border-gray400 focus:bg-white focus:border-blue focus:outline-none rounded-md w-full text-text_default mt-2 ${backgroundClass} ${paddingClass}`}
+            className={`appearance-none border focus:bg-white focus:border-blue focus:outline-none rounded-md w-full text-text_default mt-2 ${backgroundClass} ${paddingClass} ${borderClass}`}
             type={showPassword ? "text" : type}
             placeholder={placeholder}
             value={value} // 전송할 입력값 지정
@@ -76,6 +80,7 @@ const UserInput = ({
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             disabled={disabled}
+            autoComplete="off"
           />
           {/* 로그인 페이지의 아이디 input에만 노출 */}
           {name === "userId" && isFocused && (
@@ -104,9 +109,10 @@ const UserInput = ({
             </div>
           )}
         </div>
-        {message && (
+        {message && !error && (
           <p className="text-[12px] text-text_disabled mt-2">{message}</p>
         )}
+        {error && <p className="text-[12px] text-text_error mt-2">{error}</p>}
       </label>
     </>
   );
