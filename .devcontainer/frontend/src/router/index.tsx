@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Mypage from "../pages/Mypage";
 import WriteDiary from "../pages/WriteDiary";
 import Signup from "../pages/Signup";
+import Alert from "../pages/Alert";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/mypage",
     element: <Mypage />,
+  },
+  {
+    path: "/alert",
+    element: <Alert />,
   },
   {
     path: "/diary",

@@ -1,31 +1,48 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-const DiaryContentInput = () => {
+interface DiaryContentInputProps {
+  value: string[];
+  onChange: (value: string[]) => void;
+}
+
+const DiaryContentInput: React.FC<DiaryContentInputProps> = ({
+  value,
+  onChange,
+}) => {
   const placeholderText = "오늘 하루를 자유롭게 작성해 보세요";
-  const initialContent = placeholderText
-    .split("")
-    .concat(Array(60 - placeholderText.length).fill(""));
+  const initialContent = value.length
+    ? value
+    : placeholderText
+        .split("")
+        .concat(Array(60 - placeholderText.length).fill(""));
 
   const [content, setContent] = useState<string[]>(initialContent);
   const [isPlaceholderActive, setIsPlaceholderActive] = useState(true);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  const handleChange = (index: number, value: string) => {
+  useEffect(() => {
+    if (value.length) {
+      setContent(value);
+      setIsPlaceholderActive(false);
+    }
+  }, [value]);
+
+  const handleChange = (index: number, val: string) => {
     const newContent = [...content];
-    newContent[index] = value;
+    newContent[index] = val;
     setContent(newContent);
+    onChange(newContent); // Propagate the change to the parent component
   };
 
   const handleFocus = (index: number) => {
     if (isPlaceholderActive) {
-      setContent(Array(60).fill("")); // placeholderText를 지웁니다.
+      setContent(Array(60).fill(""));
       setIsPlaceholderActive(false);
     }
     inputRefs.current[index]?.focus();
   };
 
   const handleCompositionEnd = (index: number) => {
-    // 한글 조합이 끝난 후에만 다음 칸으로 이동
     if (index < 59) {
       inputRefs.current[index + 1]?.focus();
     }
@@ -34,13 +51,13 @@ const DiaryContentInput = () => {
   const handleKeyDown = (index: number, event: React.KeyboardEvent) => {
     if (event.key === "Backspace") {
       if (content[index] === "" && index > 0) {
-        inputRefs.current[index - 1]?.focus(); // 이전 칸으로 이동
+        inputRefs.current[index - 1]?.focus();
       }
     }
   };
 
   const renderCells = () => {
-    return content.map((_, index) => {
+    return content.map((char, index) => {
       const x = 26 + (index % 10) * 52;
       const y = 26 + Math.floor(index / 10) * 52;
       const isPlaceholder =
@@ -52,7 +69,7 @@ const DiaryContentInput = () => {
             ref={(el) => (inputRefs.current[index] = el)}
             type="text"
             value={content[index]}
-            maxLength={1} // 한 글자만 입력 가능
+            maxLength={1}
             onChange={(e) => handleChange(index, e.target.value)}
             onFocus={() => handleFocus(index)}
             onKeyDown={(e) => handleKeyDown(index, e)}

@@ -8,6 +8,17 @@ const DiarySidebar = () => {
     navigate("/mypage");
   };
 
+  const handleHomeClick = () => {
+    navigate("/");
+  };
+
+  const handleLogoutClick = () => {
+    const confirmLogout = window.confirm("정말 로그아웃 하시겠습니까?");
+    if (confirmLogout) {
+      navigate("/login");
+    }
+  };
+
   return (
     <aside className="w-[236px] bg-white border-r border-[#e2e2e2]">
       <div className="flex flex-col items-center mt-10 space-y-10">
@@ -37,7 +48,10 @@ const DiarySidebar = () => {
 
         {/* 메뉴 항목 */}
         <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[204px] gap-3">
-          <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-4 px-4 py-2.5 rounded-xl">
+          <div
+            className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-4 px-4 py-2.5 rounded-xl cursor-pointer"
+            onClick={handleHomeClick}
+          >
             <svg
               width={24}
               height={24}
@@ -82,7 +96,10 @@ const DiarySidebar = () => {
       </div>
 
       {/* 로그아웃 영역 */}
-      <div className="flex items-center space-x-2 px-4 absolute bottom-10 w-full">
+      <div
+        className="flex items-center space-x-2 px-4 absolute bottom-10 w-full cursor-pointer"
+        onClick={handleLogoutClick}
+      >
         <svg
           width={24}
           height={24}

@@ -13,7 +13,7 @@ const DiaryContent = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleCancel = () => {
@@ -21,10 +21,21 @@ const DiaryContent = () => {
   };
 
   const handleGenerateAndSave = async () => {
+    console.log("Title before generating:", title);
+    console.log("Content before generating:", content);
+
+    if (!title || !content) {
+      alert("제목과 내용을 입력해주세요.");
+      setIsLoading(false);
+      return;
+    }
+
     setIsLoading(true);
     try {
       const generatedImageUrl = await generateImage(`${title} - ${content}`);
       setImageUrl(generatedImageUrl);
+      console.log("이미지 URL:", generatedImageUrl);
+
       await saveDiary({ title, content, imageUrl: generatedImageUrl });
       setIsLoading(false);
       alert("일기가 성공적으로 저장되었습니다!");
@@ -49,6 +60,10 @@ const DiaryContent = () => {
     handleGenerateAndSave(); // 새로 그리기 로직 수행
   };
 
+  const handleLoadingChange = (loading) => {
+    setIsLoading(loading); // DiarySelection에서 로딩 상태 변경
+  };
+
   return (
     <div className="w-full h-auto flex justify-center items-center bg-[#f2f4f7] py-8">
       <div className="w-[1204px] h-[878px] relative bg-[#f2f4f7]">
@@ -61,7 +76,11 @@ const DiaryContent = () => {
             {isLoading ? (
               <DiaryLoad onCancel={handleCancel} />
             ) : (
-              <DiarySelection />
+              <DiarySelection
+                title={title}
+                content={content}
+                onLoadingChange={handleLoadingChange}
+              />
             )}
             <DiaryTitleInput value={title} onChange={setTitle} />
             <DiaryContentInput value={content} onChange={setContent} />

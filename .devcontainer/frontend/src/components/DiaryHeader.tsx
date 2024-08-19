@@ -1,6 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import img from "../assets/image 13.svg";
 
 const DiaryHeader = () => {
+  const navigate = useNavigate();
+
+  const handleAlarmClick = () => {
+    navigate("/alert");
+  };
+
+  const handleProfileClick = () => {
+    navigate("/mypage");
+  };
+
   return (
     <header className="flex justify-between items-center w-full h-[62px] px-4 md:px-20 py-4 bg-white border-b border-[#e2e2e2]">
       <p className="text-2xl font-medium text-[#1d1b20]">Logo</p>
@@ -11,7 +22,8 @@ const DiaryHeader = () => {
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6"
+          className="w-6 h-6 cursor-pointer"
+          onClick={handleAlarmClick}
         >
           <g clipPath="url(#clip0_1793_127)">
             <path
@@ -31,7 +43,8 @@ const DiaryHeader = () => {
         <img
           src={img}
           alt="Profile"
-          className="w-10 h-10 rounded-full object-cover border border-[#e2e2e2]"
+          className="w-10 h-10 rounded-full object-cover border border-[#e2e2e2] cursor-pointer"
+          onClick={handleProfileClick}
         />
       </div>
     </header>
