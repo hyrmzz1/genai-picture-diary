@@ -56,7 +56,7 @@ const Sidebar = () => {
           />
         </svg>
         <p className="flex-grow-0 flex-shrink-0 text-[15px] font-bold text-left text-[#3b3b3b]">
-          <Link to="/write">일기작성</Link>
+          <Link to="/diary">일기작성</Link>
         </p>
       </div>
       <div className="flex justify-start items-center w-[14.16%] absolute left-11 top-[26.69%] gap-4 rounded-xl">
