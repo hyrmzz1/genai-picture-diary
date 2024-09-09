@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import Alarm from "../components/html/Alarm";
 import DeleteAccount from "../components/DeleteAccount";
 import profileImage from "../assets/rabbit.svg";
 import useProfileStore from "../stores/profileStore";
@@ -208,7 +207,6 @@ const MyPage = () => {
             </div>
           )}
         </div>
-        <Alarm />
       </div>
     </div>
   );

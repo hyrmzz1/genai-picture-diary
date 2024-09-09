@@ -53,17 +53,5 @@ const router = createBrowserRouter([
       // TODO) 특정 일기 상세 페이지 (조회) 경로 추가
     ],
   },
-  // {
-  //   path: "/mypage",
-  //   element: <Mypage />,
-  // },
-  // {
-  //   path: "/alert",
-  //   element: <Alert />,
-  // },
-  // {
-  //   path: "/diary",
-  //   element: <WriteDiary />,
-  // },
 ]);
 export default router;

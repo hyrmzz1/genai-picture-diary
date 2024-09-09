@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import AlertList from "../components/AlertList";
 import useAlertStore from "../stores/alertStore";
-import Alarm from "../components/html/Alarm";
-import SortButton from "../components/SortButton";  
+import SortButton from "../components/SortButton";
 
 const Alert = (): JSX.Element => {
   const alertList = useAlertStore((state) => state.alerts);
@@ -42,7 +41,6 @@ const Alert = (): JSX.Element => {
           <AlertList alerts={sortedAlerts} />
         </div>
       </div>
-      <Alarm />
     </div>
   );
 };
