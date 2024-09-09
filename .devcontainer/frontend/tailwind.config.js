@@ -36,13 +36,16 @@ export default {
       text_success: "#2768FF",
       text_error: "#FF0101",
 
-      icon_default: "",
+      icon_default: "#444444",
       icon_sub: "#777777",
       icon_disabled: "#BFBFBF",
 
-      border_defalut: "",
-      border_sub: "",
+      border_defalut: "#BFBFBF",
+      border_sub: "#A0A0A0",
       border_disabled: "#EFEFEF",
+
+      divider_default: "#E2E2E2",
+      divider_stong: "#A0A0A0",
 
       Bg_default: "#FFFFFF",
       Bg_light: "#FAFAFA",
