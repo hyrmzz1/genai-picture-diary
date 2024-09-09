@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Sidebar from "../components/Sidebar";
+// import Sidebar from "../components/Sidebar";
 import AlertList from "../components/AlertList";
 import useAlertStore from "../stores/alertStore";
 import SortButton from "../components/SortButton";
@@ -21,7 +21,7 @@ const Alert = (): JSX.Element => {
 
   return (
     <div className="w-full h-screen flex">
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="flex flex-col flex-grow items-center justify-center bg-[#cfe7fc]">
         <div className="w-[78.89%] h-[90.42%] absolute left-[19.44%] top-[6.77%] overflow-hidden rounded-[20px] bg-white p-10">
           <div className="flex justify-end items-center w-full gap-5">

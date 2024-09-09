@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+// import Sidebar from "../components/Sidebar";
 import DeleteAccount from "../components/DeleteAccount";
-import profileImage from "../assets/rabbit.svg";
+import profileImage from "../assets/initProfileImage.svg";
 import useProfileStore from "../stores/profileStore";
 import EditPwd from "../components/html/EditPwd";
 
@@ -71,7 +71,7 @@ const MyPage = () => {
 
   return (
     <div className="w-full h-screen flex">
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="flex flex-col flex-grow items-center justify-center bg-[#cfe7fc]">
         <div className="flex justify-center items-center w-[78.89%] h-[90.42%] absolute left-[19.44%] top-[6.77%] overflow-hidden rounded-[20px] bg-white p-10">
           {isDeleteAccountMode ? (
