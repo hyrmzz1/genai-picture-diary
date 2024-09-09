@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Profile from "../assets/initProfileImage.svg?react";
 import HomeIcon from "../assets/snbHome.svg?react";
 import WriteIcon from "../assets/snbWrite.svg?react";
@@ -8,27 +9,37 @@ import LogoutIcon from "../assets/snbLogout.svg?react";
 
 const Snb = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [activeMenu, setActiveMenu] = useState<string>(location.pathname);
+
+  useEffect(() => {
+    setActiveMenu(location.pathname); // 경로가 변경될 때마다 activeMenu를 업데이트
+  }, [location.pathname]);
+
+  const handleMenuClick = (route: string) => {
+    navigate(route);
+  };
 
   const menuItems = [
     {
       label: "홈",
       icon: <HomeIcon />,
-      // onClick: navigate("/"),
+      route: "/",
     },
     {
       label: "일기 작성",
       icon: <WriteIcon />,
-      // onClick: navigate("/mypage/write"),
+      route: "/mypage/write",
     },
     {
       label: "내 일기장",
       icon: <MyDiaryIcon />,
-      // onClick: navigate("/mypage/my-diary-list"),
+      route: "/mypage/my-diary-list",
     },
     {
       label: "우리반 일기장",
       icon: <ClassDiaryIcon />,
-      // onClick: navigate("/mypage/class-diary-list"),
+      route: "/mypage/class-diary-list",
     },
   ];
 
@@ -59,8 +70,12 @@ const Snb = () => {
           {menuItems.map((item, index) => (
             <div
               key={index}
-              className="flex items-center h-[52px] px-[16px] py-[10px] gap-x-4 rounded-xl hover:bg-[#CFE7FC] cursor-pointer"
-              // onClick={item.onClick ? item.onClick : undefined}
+              className={`flex items-center h-[52px] px-[16px] py-[10px] gap-x-4 rounded-xl cursor-pointer ${
+                activeMenu === item.route
+                  ? "bg-[#CFE7FC]" // active 상태인 메뉴에 배경색 적용
+                  : "hover:bg-[#CFE7FC66]" // active 상태가 아닌 메뉴가 hover 상태일 때 배경색 적용
+              }`}
+              onClick={() => handleMenuClick(item.route)}
             >
               {item.icon}
               <p className="font-bold text-[15px]">{item.label}</p>
