@@ -9,9 +9,8 @@ const AuthLayout = () => {
         <Gnb />
         <div className="flex flex-1">
           <Snb />
-          <div className="flex-1">
-            {/* <Outlet /> */}
-            <div className="w-full h-full bg-gray500"></div>
+          <div className="flex-1 bg-[#F7F8F9]">
+            <Outlet />
           </div>
         </div>
       </div>

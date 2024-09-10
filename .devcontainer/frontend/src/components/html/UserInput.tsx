@@ -17,7 +17,7 @@ interface UserInputProps {
   disabled?: boolean;
   variant?: {
     bgless?: boolean; // true - 배경색 미적용, false - 배경색 적용
-    smPadding?: boolean; // padding 사이즈 (true - 마이페이지, false - 로그인/회원가입)
+    isThin?: boolean; // true - 마이페이지, false - 로그인/회원가입
   };
   showCharacterCount?: boolean; // 글자 수 표시 여부 (마이페이지 별명 입력 필드에 사용)
 }
@@ -57,15 +57,22 @@ const UserInput = ({
 
   const backgroundClass = variant.bgless ? "" : "bg-gray50";
 
-  const paddingClass = variant.smPadding
-    ? "py-[16px] px-[14px]"
-    : "py-[20px] px-[16px]";
+  let paddingClass = "";
+  let marginClass = "";
+
+  if (variant.isThin) {
+    paddingClass = "px-4 py-[.875rem]";
+    marginClass = "mb-[1.125rem]";
+  } else {
+    paddingClass = "px-4 py-5";
+    marginClass = "mb-6";
+  }
 
   const borderClass = error ? "border-text_error" : "border-gray400";
 
   return (
     <>
-      <label className="block mb-[24px] text-[14px]">
+      <label className={`block text-[14px] ${marginClass}`}>
         {label}
         <div className="relative">
           {/* UserBtn을 label과 input 사이에 배치하기 위함 */}
