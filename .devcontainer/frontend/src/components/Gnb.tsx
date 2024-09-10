@@ -19,7 +19,7 @@ const Gnb = () => {
   const getGnbConfig = () => {
     if (location.pathname.startsWith("/mypage")) {
       return {
-        height: "h-[62px]",
+        height: "min-h-[62px]",
         paddingX: "pl-[88px] pr-[32px]",
         content: (
           <div className="flex items-center space-x-4">
@@ -37,7 +37,7 @@ const Gnb = () => {
 
     // 기본 경로 ("/" 및 그 외 경로)
     return {
-      height: "h-[85px]",
+      height: "min-h-[85px]",
       paddingX: "px-[88px]",
       content: <Link to="/login">로그인</Link>,
     };
