@@ -50,7 +50,7 @@ const DiarySelection = ({
   };
 
   return (
-    <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-[316px]">
+    <div className="flex justify-center items-center py-6">
       {isLoading ? (
         <DiaryLoad onCancel={handleCancel} /> // 로딩 중일 때 DiaryLoad 표시
       ) : (

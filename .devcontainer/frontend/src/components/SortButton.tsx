@@ -5,12 +5,9 @@ interface SortButtonProps {
   onClick: () => void;
 }
 
-const SortButton = ({ order, label, isSelected, onClick }: SortButtonProps): JSX.Element => {
+const SortButton = ({ order, label, isSelected, onClick }: SortButtonProps) => {
   return (
-    <div
-      className="flex justify-start items-center relative gap-2 cursor-pointer"
-      onClick={onClick}
-    >
+    <div className="flex items-center gap-1 cursor-pointer" onClick={onClick}>
       <svg
         width={24}
         height={24}
@@ -33,8 +30,8 @@ const SortButton = ({ order, label, isSelected, onClick }: SortButtonProps): JSX
         />
       </svg>
       <p
-        className={`text-[15px] font-bold text-left ${
-          isSelected ? "text-[#777777]" : "text-[#BFBFBF]"
+        className={`text-sm font-bold text-left ${
+          isSelected ? "text-text_sub" : "text-icon_disabled"
         }`}
       >
         {label}
