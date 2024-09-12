@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-// import Sidebar from "../components/Sidebar";
+import NoAlertIcon from "../assets/alertNoneIcon.svg?react";
+import SortButton from "../components/SortButton";
 import AlertList from "../components/AlertList";
 import useAlertStore from "../stores/alertStore";
-import SortButton from "../components/SortButton";
 
 const Alert = (): JSX.Element => {
   const alertList = useAlertStore((state) => state.alerts);
@@ -20,11 +20,12 @@ const Alert = (): JSX.Element => {
   });
 
   return (
-    <div className="w-full h-screen flex">
-      {/* <Sidebar /> */}
-      <div className="flex flex-col flex-grow items-center justify-center bg-[#cfe7fc]">
-        <div className="w-[78.89%] h-[90.42%] absolute left-[19.44%] top-[6.77%] overflow-hidden rounded-[20px] bg-white p-10">
-          <div className="flex justify-end items-center w-full gap-5">
+    <div className="flex justify-center">
+      <div className="w-[900px] my-10 flex flex-col gap-y-4">
+        <p className="text-lg font-extrabold">내 소식</p>
+        <div className="min-h-[535px] p-6 flex flex-col bg-white rounded-xl drop-shadow-[0_5px_5px_rgba(0,0,0,0.1)]">
+          {/* 정렬 버튼 */}
+          <div className="flex justify-end gap-4">
             <SortButton
               order="latest"
               label="최신순"
@@ -38,7 +39,18 @@ const Alert = (): JSX.Element => {
               onClick={() => setSortOrder("oldest")}
             />
           </div>
-          <AlertList alerts={sortedAlerts} />
+          {/* TODO) 소식 여부에 따른 조건부 렌더링 구현 필요 */}
+          <div className="w-full h-full">
+            {/* 소식 없을 때 */}
+            <div className="w-full h-full flex flex-col justify-center items-center gap-y-4">
+              <NoAlertIcon />
+              <p className="text-sm text-text_info">새로운 소식이 없습니다.</p>
+            </div>
+            {/* 소식 있을 때 */}
+            <div className="w-full h-full flex flex-col">
+              <AlertList alerts={sortedAlerts} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
