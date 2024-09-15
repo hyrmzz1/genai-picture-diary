@@ -13,7 +13,7 @@ interface AlertListProps {
 
 const AlertList = ({ alerts }: AlertListProps): JSX.Element => {
   return (
-    <section className="alert-list">
+    <section className="mt-6 grid grid-cols-1 divide-y-[.0625rem] divide-border_disabled border-y-[.0625rem] border-border_disabled overflow-y-auto">
       {alerts.map((alert) => (
         <AlertListItem key={alert.id} alert={alert} />
       ))}

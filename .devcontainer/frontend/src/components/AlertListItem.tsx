@@ -1,3 +1,27 @@
+import { useEffect, useState } from "react";
+import AlertIcon from "../assets/alertNoneIcon.svg?react";
+
+const getRelativeTime = (dateString: string) => {
+  const now = new Date();
+  const date = new Date(dateString);
+  const difference = now.getTime() - date.getTime(); // 밀리초 차이 계산
+
+  const seconds = Math.floor(difference / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 0) {
+    return `${days}일 전`;
+  } else if (hours > 0) {
+    return `${hours}시간 전`;
+  } else if (minutes > 0) {
+    return `${minutes}분 전`;
+  } else {
+    return `방금 전`;
+  }
+};
+
 interface AlertProps {
   alert: {
     id: number;
@@ -8,49 +32,32 @@ interface AlertProps {
 }
 
 const AlertListItem = ({ alert }: AlertProps): JSX.Element => {
+  const [_, setForceUpdate] = useState(0);
+
+  useEffect(() => {
+    // 1분마다 컴포넌트 리렌더링
+    const interval = setInterval(() => {
+      setForceUpdate((prev) => prev + 1); // 상태 업데이트를 통해 리렌더링 트리거
+    }, 60000);
+
+    // 컴포넌트 언마운트 시 interval 클리어
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="flex flex-col justify-start items-center flex-grow-0 w-full left-10 top-[84px] gap-6">
-      <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-3">
-        <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5 px-4">
-          <p className="flex-grow-0 flex-shrink-0 text-[15px] font-bold text-left text-[#444]">
-            {alert.date}
-          </p>
-        </div>
-        <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0">
-          <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-4 px-4 py-5 rounded-xl bg-white border-2 border-[#efefef]">
-            <div className="flex flex-col justify-center items-start flex-grow-0 flex-shrink-0 relative overflow-hidden">         
-            <div className="flex justify-center items-center w-10 h-10 relative overflow-hidden rounded-full bg-[#bfbfbf]">
-              <p className="text-base font-medium text-center text-white">
-                  A
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center items-start self-stretch w-[940px] relative overflow-hidden gap-1">
-              <p className="self-stretch text-base font-bold text-left text-[#232527]">
-                {alert.title}
-              </p>
-              <p className="self-stretch text-base text-left text-[#232527]">
-                {alert.message}
-              </p>
-              <p className="self-stretch text-[13px] text-left text-[#777]">
-                1분 전
-              </p>
-            </div>
-            <svg
-              width={12}
-              height={12}
-              viewBox="0 0 12 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="flex-grow-0 flex-shrink-0 absolute"
-              style={{ left: '97.34%', top: '16.66%' }}
-              preserveAspectRatio="xMidYMid meet"
-            >
-              <circle cx={6} cy={6} r={6} fill="#FF0101" />
-            </svg>
-          </div>
-        </div>
-      </div>   
+    <div className="flex w-full px-4 py-5 gap-x-4">
+      <AlertIcon />
+      <div className="flex flex-col flex-1 overflow-hidden gap-y-1">
+        <p className="text-text_default text-[.9375rem] font-bold truncate">
+          {alert.title}
+        </p>
+        <p className="text-text_default text-[.9375rem] truncate">
+          {alert.message}
+        </p>
+        <p className="text-text_info text-[.8125rem]">
+          {getRelativeTime(alert.date)}
+        </p>
+      </div>
     </div>
   );
 };
