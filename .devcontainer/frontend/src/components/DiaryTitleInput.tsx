@@ -5,10 +5,10 @@ interface DiaryTitleInputProps {
   onChange: (value: string) => void;
 }
 
-const DiaryTitleInput: React.FC<DiaryTitleInputProps> = ({
+const DiaryTitleInput = ({
   value,
   onChange,
-}) => {
+}: DiaryTitleInputProps): JSX.Element => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };

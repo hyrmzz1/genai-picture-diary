@@ -1,36 +1,59 @@
 interface DiaryContentInputProps {
-  value: string[];
-  onChange: (value: string[]) => void;
+  value: string;
+  onChange: (value: string) => void;
 }
+
+const MAX_ROWS = 3;
 
 const DiaryContentInput = ({
   value,
   onChange,
 }: DiaryContentInputProps): JSX.Element => {
-  const MAX_ROWS = 3;
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const inputValue = event.target.value;
 
-  // 줄 변경 핸들러
-  const handleLineChange = (index: number, newValue: string) => {
-    const newLines = [...value];
-    newLines[index] = newValue;
-    onChange(newLines);
+    const lines = inputValue.split("\n"); // 입력된 내용에서 줄 수 확인
+
+    if (lines.length > MAX_ROWS) {
+      return;
+    }
+
+    onChange(inputValue);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const lines = value.split("\n"); // 현재 내용에서 줄 수 확인
+    console.log(lines.length);
+
+    // MAX_ROWS를 초과하는 경우 Enter 키 입력 막음
+    if (event.key === "Enter" && lines.length >= MAX_ROWS) {
+      event.preventDefault();
+    }
+  };
+
+  const lineHeights = [2.9688, 2.9375, 2.9688]; // 줄 배경 높이 (divider가 1px임을 고려)
+
   return (
-    <div className="w-full border border-divider_default divide-y divide-divider_default">
-      {Array.from({ length: MAX_ROWS }).map((_, index) => (
-        <div key={index} className="relative w-full">
-          <input
-            type="text"
-            value={value[index] || ""}
-            onChange={(e) => handleLineChange(index, e.target.value)}
-            placeholder={
-              index === 0 ? "오늘 하루를 자유롭게 작성해 보세요." : ""
-            }
-            className="w-full px-5 py-3 font-ownglyph text-lg text-text_default placeholder-text_disabled tracking-widest focus:outline-none"
-          />
-        </div>
-      ))}
+    <div className="relative w-full h-[9rem]">
+      {/* 줄 배경 */}
+      <div className="absolute h-fit border border-divider_default divide-y divide-divider_default inset-0 pointer-events-none z-10">
+        {lineHeights.map((height, index) => (
+          <div
+            key={index}
+            className="w-full"
+            style={{ height: `${height}rem` }}
+          ></div>
+        ))}
+      </div>
+
+      <textarea
+        value={value}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        className="relative w-full resize-none px-5 font-ownglyph text-lg leading-[3rem] text-text_default placeholder-text_disabled tracking-widest focus:outline-none"
+        placeholder="오늘 하루를 자유롭게 작성해 보세요."
+        rows={MAX_ROWS}
+      />
     </div>
   );
 };
