@@ -1,118 +1,78 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useRef, useState } from "react";
 
 interface DiaryContentInputProps {
-  value: string[];
-  onChange: (value: string[]) => void;
+  value: string;
+  onChange: (value: string) => void;
 }
 
-const DiaryContentInput: React.FC<DiaryContentInputProps> = ({
+const MAX_ROWS = 3;
+const MAX_LENGTH = 75;
+
+const DiaryContentInput = ({
   value,
   onChange,
-}) => {
-  const placeholderText = "오늘 하루를 자유롭게 작성해 보세요";
-  const initialContent = value.length
-    ? value
-    : placeholderText
-        .split("")
-        .concat(Array(60 - placeholderText.length).fill(""));
+}: DiaryContentInputProps): JSX.Element => {
+  const [charCount, setCharCount] = useState(value.length);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const [content, setContent] = useState<string[]>(initialContent);
-  const [isPlaceholderActive, setIsPlaceholderActive] = useState(true);
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  // 줄 수 초과하면 추가 입력 차단
+  const isLineLimitExceeded = (inputValue: string) => {
+    const lines = inputValue.split("\n").length;
+    return lines > MAX_ROWS;
+  };
 
-  useEffect(() => {
-    if (value.length) {
-      setContent(value);
-      setIsPlaceholderActive(false);
+  // 스크롤 발생하려는 상황에서 입력 차단
+  const isScrollLimitExceeded = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      const { scrollHeight, clientHeight } = textarea;
+      return scrollHeight > clientHeight;
     }
-  }, [value]);
-
-  const handleChange = (index: number, val: string) => {
-    const newContent = [...content];
-    newContent[index] = val;
-    setContent(newContent);
-    onChange(newContent); // Propagate the change to the parent component
+    return false;
   };
 
-  const handleFocus = (index: number) => {
-    if (isPlaceholderActive) {
-      setContent(Array(60).fill(""));
-      setIsPlaceholderActive(false);
+  const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const inputValue = event.target.value;
+
+    if (
+      isLineLimitExceeded(inputValue) ||
+      isScrollLimitExceeded() ||
+      inputValue.length > MAX_LENGTH
+    ) {
+      return;
     }
-    inputRefs.current[index]?.focus();
+
+    setCharCount(inputValue.length);
+    onChange(inputValue);
   };
 
-  const handleCompositionEnd = (index: number) => {
-    if (index < 59) {
-      inputRefs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleKeyDown = (index: number, event: React.KeyboardEvent) => {
-    if (event.key === "Backspace") {
-      if (content[index] === "" && index > 0) {
-        inputRefs.current[index - 1]?.focus();
-      }
-    }
-  };
-
-  const renderCells = () => {
-    return content.map((char, index) => {
-      const x = 26 + (index % 10) * 52;
-      const y = 26 + Math.floor(index / 10) * 52;
-      const isPlaceholder =
-        isPlaceholderActive && index < placeholderText.length;
-
-      return (
-        <foreignObject key={index} x={x - 20} y={y - 20} width={40} height={40}>
-          <input
-            ref={(el) => (inputRefs.current[index] = el)}
-            type="text"
-            value={content[index]}
-            maxLength={1}
-            onChange={(e) => handleChange(index, e.target.value)}
-            onFocus={() => handleFocus(index)}
-            onKeyDown={(e) => handleKeyDown(index, e)}
-            onCompositionEnd={() => handleCompositionEnd(index)}
-            className={`w-full h-full text-center bg-transparent border-none outline-none font-ownglyph text-[24px] ${
-              isPlaceholder ? "text-[#a0a0a0]" : "text-[#232527]"
-            }`}
-          />
-        </foreignObject>
-      );
-    });
-  };
+  const lineHeights = [2.9688, 2.9375, 2.9688]; // 줄 배경 높이 (divider가 1px임을 고려)
 
   return (
-    <div className="relative w-[520px] h-[313px]">
-      <svg
-        width={520}
-        height={313}
-        viewBox="0 0 520 313"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="absolute top-0 left-0"
-        preserveAspectRatio="none"
-      >
-        <rect x="0.5" y="0.5" width={519} height={312} stroke="#E2E2E2" />
-        <path d="M208 0L208 312" stroke="#E2E2E2" />
-        <path d="M260 0L260 312" stroke="#E2E2E2" />
-        <path d="M312 0L312 312" stroke="#E2E2E2" />
-        <path d="M364 0L364 312" stroke="#E2E2E2" />
-        <path d="M416 0L416 312" stroke="#E2E2E2" />
-        <path d="M468 0L468 312" stroke="#E2E2E2" />
-        <path d="M156 0L156 312" stroke="#E2E2E2" />
-        <path d="M104 0L104 312" stroke="#E2E2E2" />
-        <path d="M52 0L52 312" stroke="#E2E2E2" />
-        <path d="M520 52L0 52" stroke="#E2E2E2" />
-        <path d="M520 104L0 104" stroke="#E2E2E2" />
-        <path d="M520 156L0 156" stroke="#E2E2E2" />
-        <path d="M520 208L0 208" stroke="#E2E2E2" />
-        <path d="M520 260L0 260" stroke="#E2E2E2" />
+    <div className="relative w-full">
+      {/* 줄 배경 */}
+      <div className="absolute h-fit border border-divider_default divide-y divide-divider_default inset-0 pointer-events-none z-10">
+        {lineHeights.map((height, index) => (
+          <div
+            key={index}
+            className="w-full"
+            style={{ height: `${height}rem` }}
+          ></div>
+        ))}
+      </div>
 
-        {/* 각 격자 칸을 input으로 만들어 렌더링 */}
-        {renderCells()}
-      </svg>
+      <textarea
+        ref={textareaRef}
+        value={value}
+        onChange={handleInput}
+        className="relative w-full max-h-36 overflow-hidden resize-none px-5 font-ownglyph text-lg leading-[3rem] text-text_default placeholder-text_disabled tracking-widest focus:outline-none"
+        placeholder="오늘 하루를 자유롭게 작성해 보세요."
+        rows={MAX_ROWS}
+        maxLength={MAX_LENGTH}
+      />
+      <p className="w-full text-right text-text_disabled text-sm font-ownglyph tracking-widest">
+        {charCount} / {MAX_LENGTH}
+      </p>
     </div>
   );
 };
