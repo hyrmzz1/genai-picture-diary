@@ -15,36 +15,35 @@ const DiaryContentInput = ({
   const [charCount, setCharCount] = useState(value.length);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const inputValue = event.target.value;
-
-    const lines = inputValue.split("\n").length; // 입력된 내용에서 줄 수 확인
-    const textarea = textareaRef.current;
-
-    if (textarea) {
-      const { scrollHeight, clientHeight } = textarea;
-
-      // 스크롤이 발생하면 입력 제한
-      // 행 수 제한, 글자 수 제한
-      if (
-        scrollHeight > clientHeight ||
-        lines > MAX_ROWS ||
-        inputValue.length > MAX_LENGTH
-      ) {
-        return;
-      }
-    }
-    setCharCount(inputValue.length);
-    onChange(inputValue);
+  // 줄 수 초과하면 추가 입력 차단
+  const isLineLimitExceeded = (inputValue: string) => {
+    const lines = inputValue.split("\n").length;
+    return lines > MAX_ROWS;
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    const lines = value.split("\n").length; // 현재 내용에서 줄 수 확인
-
-    // MAX_ROWS를 초과하는 경우 Enter 키 입력 막음
-    if (event.key === "Enter" && lines >= MAX_ROWS) {
-      event.preventDefault();
+  // 스크롤 발생하려는 상황에서 입력 차단
+  const isScrollLimitExceeded = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      const { scrollHeight, clientHeight } = textarea;
+      return scrollHeight > clientHeight;
     }
+    return false;
+  };
+
+  const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const inputValue = event.target.value;
+
+    if (
+      isLineLimitExceeded(inputValue) ||
+      isScrollLimitExceeded() ||
+      inputValue.length > MAX_LENGTH
+    ) {
+      return;
+    }
+
+    setCharCount(inputValue.length);
+    onChange(inputValue);
   };
 
   const lineHeights = [2.9688, 2.9375, 2.9688]; // 줄 배경 높이 (divider가 1px임을 고려)
@@ -65,8 +64,7 @@ const DiaryContentInput = ({
       <textarea
         ref={textareaRef}
         value={value}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
+        onChange={handleInput}
         className="relative w-full max-h-36 overflow-hidden resize-none px-5 font-ownglyph text-lg leading-[3rem] text-text_default placeholder-text_disabled tracking-widest focus:outline-none"
         placeholder="오늘 하루를 자유롭게 작성해 보세요."
         rows={MAX_ROWS}
