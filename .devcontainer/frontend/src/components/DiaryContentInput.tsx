@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 interface DiaryContentInputProps {
   value: string;
@@ -13,26 +13,36 @@ const DiaryContentInput = ({
   onChange,
 }: DiaryContentInputProps): JSX.Element => {
   const [charCount, setCharCount] = useState(value.length);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value;
 
-    const lines = inputValue.split("\n"); // 입력된 내용에서 줄 수 확인
+    const lines = inputValue.split("\n").length; // 입력된 내용에서 줄 수 확인
+    const textarea = textareaRef.current;
 
-    if (lines.length > MAX_ROWS) {
-      return;
+    if (textarea) {
+      const { scrollHeight, clientHeight } = textarea;
+
+      // 스크롤이 발생하면 입력 제한
+      // 행 수 제한, 글자 수 제한
+      if (
+        scrollHeight > clientHeight ||
+        lines > MAX_ROWS ||
+        inputValue.length > MAX_LENGTH
+      ) {
+        return;
+      }
     }
-
     setCharCount(inputValue.length);
     onChange(inputValue);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    const lines = value.split("\n"); // 현재 내용에서 줄 수 확인
-    console.log(lines.length);
+    const lines = value.split("\n").length; // 현재 내용에서 줄 수 확인
 
     // MAX_ROWS를 초과하는 경우 Enter 키 입력 막음
-    if (event.key === "Enter" && lines.length >= MAX_ROWS) {
+    if (event.key === "Enter" && lines >= MAX_ROWS) {
       event.preventDefault();
     }
   };
@@ -53,10 +63,11 @@ const DiaryContentInput = ({
       </div>
 
       <textarea
+        ref={textareaRef}
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        className="relative w-full resize-none px-5 font-ownglyph text-lg leading-[3rem] text-text_default placeholder-text_disabled tracking-widest focus:outline-none"
+        className="relative w-full max-h-36 overflow-hidden resize-none px-5 font-ownglyph text-lg leading-[3rem] text-text_default placeholder-text_disabled tracking-widest focus:outline-none"
         placeholder="오늘 하루를 자유롭게 작성해 보세요."
         rows={MAX_ROWS}
         maxLength={MAX_LENGTH}
