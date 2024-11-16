@@ -1,7 +1,7 @@
 import FormWrapper from "../components/FormWrapper";
 import teacherIcon from "../assets/teacherIcon.svg";
 import individualIcon from "../assets/individualIcon.svg";
-import { UserType } from "../type/UserType";
+import { UserType } from "../types/UserType";
 
 type RoldCardProps = {
   icon: string; // 역할 아이콘

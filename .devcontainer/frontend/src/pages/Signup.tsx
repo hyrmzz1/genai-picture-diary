@@ -5,7 +5,7 @@ import AuthForm from "../components/AuthForm";
 import RoleForm from "../components/RoleForm";
 import UserBtn from "../components/html/UserBtn";
 import SignupComplete from "../components/SignupComplete";
-import { UserType } from "../type/UserType";
+import { UserType } from "../types/UserType";
 
 // TODO) 동의 체크 박스 검사
 type FormData = {
